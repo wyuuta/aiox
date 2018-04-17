@@ -17,8 +17,8 @@ class CreateTranscationsTable extends Migration
             $table->increments('trx_id');
             $table->integer('from_user')->index();
             $table->integer('to_user')->index();
-            $table->string('from_currency');
-            $table->string('to_currency');
+            $table->string('from_curr');
+            $table->string('to_curr');
             $table->double('from_value',8,2);
             $table->double('to_value',8,2);
             $table->timestamps();

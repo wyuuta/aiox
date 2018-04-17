@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Wallet;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -68,5 +69,17 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+    }
+
+    protected function create_wallet($user)
+    {
+        $data = [];
+        $data['btc'] = ["wallet_id" => "2345sdfs312d4f43ht7", "balance"=>0];
+        $data['eth'] = ["wallet_id" => "2345sdfs312d4f43ht7", "balance"=>0];
+        
+        $wallet = new Wallet;
+        $wallet->user_id = $user->id;
+        $wallet->wallet = json_encode($data);
+        $wallet->save();
     }
 }
