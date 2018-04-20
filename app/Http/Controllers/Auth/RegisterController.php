@@ -73,13 +73,26 @@ class RegisterController extends Controller
 
     protected function create_wallet($user)
     {
-        $data = [];
-        $data['btc'] = ["wallet_id" => "2345sdfs312d4f43ht7", "balance"=>0];
-        $data['eth'] = ["wallet_id" => "2345sdfs312d4f43ht7", "balance"=>0];
-        
+        // $data = [];
+        // $data['idr'] = ["balance"=>0];
+        // $data['btc'] = ["wallet_id" => "2345sdfs312d4f43ht7", "balance"=>0];
+        // $data['eth'] = ["wallet_id" => "2345sdfs312d4f43ht7", "balance"=>0];
         $wallet = new Wallet;
         $wallet->user_id = $user->id;
-        $wallet->wallet = json_encode($data);
+        $wallet->currency = "IDR";
+        $wallet->balance = 0;
+        $wallet->save();
+
+        $wallet = new Wallet;
+        $wallet->user_id = $user->id;
+        $wallet->currency = "BTC";
+        $wallet->balance = 0;
+        $wallet->save();
+
+        $wallet = new Wallet;
+        $wallet->user_id = $user->id;
+        $wallet->currency = "ETH";
+        $wallet->balance = 0;
         $wallet->save();
     }
 }

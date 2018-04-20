@@ -37,9 +37,9 @@ class ForumController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store_thread(Request $request)
+    public function createNewThread(Request $request)
     {
-        //
+        //function to store new forum's thread innformations
         $thread = new MainThread;
         $thread->title = $request->title;
         $thread->description = $request->description;
@@ -49,9 +49,9 @@ class ForumController extends Controller
         return Redirect::to('/forum');
     }
 
-    public function store_reply(Request $request)
+    public function createNewReply(Request $request)
     {
-        //
+        //function to store user's reply
         $reply = new Reply;
         $reply->thread_id = $request->thread_id;
         $reply->user_id = Auth::user()->id;
@@ -67,16 +67,16 @@ class ForumController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show_thread($id)
+    public function showThreads(Request $request)
     {
-        //
+        //function to see list of threads
         $threads = MainThread::all();
         return view('forum',$threads);
     }
 
     public function show_reply($id)
     {
-        //
+        //function to show thread and its replies
         $main = MainThread::where('thread_id',$id)->get();
         $replies = Reply::where('thread_id',$id)->get();
         return view('thread',$main,$replies);
@@ -113,16 +113,16 @@ class ForumController extends Controller
      */
     public function destroy_thread($id)
     {
-        //
+        //function to delete thread (may be used)
         $thread = MainThread::where('thread_id',$id)->get();
         $thread->delete();
 
         return Redirect::to('/forum');
     }
 
-    public function destroy_thread($id)
+    public function deleteReply($id)
     {
-        //
+        //function to delete replies
         $thread = Reply::where('reply_id',$id)->get();
         $thread->delete();
 
