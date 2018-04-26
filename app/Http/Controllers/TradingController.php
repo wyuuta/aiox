@@ -143,4 +143,24 @@ class TradingController extends Controller
     {
         //
     }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showMarket()
+    {
+        return view('market');
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showInstant()
+    {
+        return view('instant');
+    }
 }
