@@ -145,7 +145,7 @@ class TradingController extends Controller
     }
 
     /**
-     * Show the application dashboard.
+     * Show the application trading market.
      *
      * @return \Illuminate\Http\Response
      */
@@ -155,7 +155,7 @@ class TradingController extends Controller
     }
 
     /**
-     * Show the application dashboard.
+     * Show the application instant trade.
      *
      * @return \Illuminate\Http\Response
      */

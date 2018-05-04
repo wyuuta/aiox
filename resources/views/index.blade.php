@@ -1,13 +1,4 @@
 @extends('layouts.app')
-@section('navbarlink')
-<ul class="navbar-nav mr-auto">
-    <li class="nav-item"><a class="nav-link" href="{{route('instant')}}">Tukar Instan</a></li>
-    <li class="nav-item" ><a class="nav-link" href="{{route('market')}}">Market</a></li>
-    <li class="nav-item" ><a class="nav-link" href="{{route('balance')}}">Balance</a></li>
-    <li class="nav-item" ><a class="nav-link" href="{{route('profil')}}">Profil</a></li>
-</ul>
-@endsection
-
 @section('content')
 <div class ="container-fluid no-padding">
     <section class="row">
@@ -17,8 +8,8 @@
         </div>
     </section>
     <section class="row" style="background: url('{{URL::asset('/image/index_section_2_img.jpg')}}')no-repeat center center /cover; height: 600px; opacity: 50%; filter: alpha(opacity=50);">
-        <div class="col-5" > 
-            <h5 class="text-light" style="margin-left: 300px; margin-top:100px margin-bottom:100px">Top gainer</h5>
+        <div class="col-6 no-padding" > 
+            <h5 class="text-dark" style="margin-left: 250px; margin-top:100px; margin-bottom:20px;">Top gainer</h5>
             <table class="table table-dark table-hover">
                 <thead>
                     <tr>
@@ -37,6 +28,7 @@
                         <td>+0.12%</td>
                         <td>1M</td>
                         <td>4980000</td>
+                        <td>5000000</td>
                     </tr>
                     <tr>
                         <td>BTC/Rupiah</td>
@@ -44,6 +36,7 @@
                         <td>+0.1%</td>
                         <td>10M</td>
                         <td>114980000</td>
+                        <td>117000000</td>
                     </tr>
                     <tr>
                         <td>BCH/ETH</td>
@@ -51,12 +44,13 @@
                         <td>+0.12%</td>
                         <td>16</td>
                         <td>2.45</td>
+                        <td>2.5</td>
                     </tr>
                 </tbody>
             </table>
         </div>
-        <div class="col-5 no-padding"> 
-            <h5 class="text-light" style="margin-left: 300px; margin-top:100px margin-bottom:100px">Top losser</h5>
+        <div class="col-6 no-padding" > 
+            <h5 class="text-dark" style="margin-left: 250px; margin-top:100px; margin-bottom:20px; color:black;">Top losser</h5>
             <table class="table table-dark table-hover">
                 <thead>
                     <tr>
@@ -75,6 +69,7 @@
                         <td>-1.12%</td>
                         <td>547Jt</td>
                         <td>4980</td>
+                        <td>5000</td>
                     </tr>
                     <tr>
                         <td>ETC/Rupiah</td>
@@ -82,6 +77,7 @@
                         <td>-1.0%</td>
                         <td>300Jt</td>
                         <td>951320</td>
+                        <td>951450</td>
                     </tr>
                     <tr>
                         <td>ETC/BCH</td>
@@ -89,6 +85,7 @@
                         <td>-0.52%</td>
                         <td>23.2</td>
                         <td>0.189</td>
+                        <td>0.2</td>
                     </tr>
                 </tbody>
             </table>

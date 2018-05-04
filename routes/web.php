@@ -20,14 +20,15 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get("/market","TradingControler@showMarket")->name('market');
+Route::get("/market","TradingController@showMarket")->name('market');
 
-Route::get("/instant", "TradingControler@showInstant")->name('instant');
+Route::get("/instant", "TradingController@showInstant")->name('instant');
 
-Route::get("/balance","TradingControler@showMarket")->name('balance');
+Route::get("/balance","TradingController@showMarket")->name('balance');
 
-Route::get("/profil","TradingControler@showMarket")->name('profil');
+Route::get("/profil","TradingController@showMarket")->name('profil');
 
+Route::get("/main");
 
 // Example to get real time crypto price data
 Route::get('/contoh', function(){

@@ -1,5 +1,12 @@
 @extends('layouts.app')
-
+@section('navbarlink')
+<ul class="navbar-nav mr-auto">
+    <li class="nav-item"><a class="nav-link" href="{{route('instant')}}">Tukar Instan</a></li>
+    <li class="nav-item" ><a class="nav-link" href="{{route('market')}}">Market</a></li>
+    <li class="nav-item" ><a class="nav-link" href="{{route('balance')}}">Balance</a></li>
+    <li class="nav-item" ><a class="nav-link" href="{{route('profil')}}">Profil</a></li>
+</ul>
+@endsection
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -15,6 +22,8 @@
                     @endif
 
                     You are logged in!
+                    <br>
+                    Redirecting to instant trade...
                 </div>
             </div>
         </div>
