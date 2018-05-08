@@ -17,6 +17,7 @@
   border: 5px;
   border-color: #343a40;
   border-style: groove; 
+  min-height: 200px;
 }
 
 .contentpanel li{
