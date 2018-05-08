@@ -7,6 +7,36 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 
+.nav-item .nav-link .active{
+  color: #FFF;  
+}
+
+.contentpanel{
+  position: relative;
+  padding: 20px;
+  border: 5px;
+  border-color: #343a40;
+  border-style: groove; 
+}
+
+.contentpanel li{
+  padding: 0px 20px;
+  color: #FFF;
+  opacity: 0.5;
+}
+
+.nav-tabs{
+  -moz-border-radius:3px 3px 0 0;
+}
+
+.nav-dark{
+  background-color: #343a40;
+  border-color: #343a40;
+}
+
+.nav-tabsli.active{
+  background-color: white;
+}
 
 .kode-cell, .name-cell{
   width: 15%;
@@ -95,9 +125,12 @@ button:hover {
   background-color: #4CAF50;
 }
 
+.no-margin{
+  margin:0px;
+}
+
 .no-padding{
-	padding-left: 0;
-	padding-right: 0; 
+	padding: 0px;
 }
 
 .container-no-padding {

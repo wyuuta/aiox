@@ -8,11 +8,11 @@
 </ul>
 @endsection
 @section('content')
-<div class ="container-fluid no-padding" style="margin-top: 40px">
+<div class ="container-fluid no-padding" style="margin-top: 50px">
     <!-- list crypto -->
     <section class="row">
         <div class="container-fluid">
-        <table class="table-bordered table-light table-hover table-responsive-lg table-bordered" style="padding: 50px;">
+        <table class="table-bordered table-light table-hover table-responsive-lg table-bordered" style="min-width: 500px; width: 100%; min-height: 300px;">
             <thead>
                 <tr>
                     <th>Crypto currency</th>

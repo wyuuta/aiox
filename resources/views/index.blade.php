@@ -1,9 +1,9 @@
 @extends('layouts.app')
 @section('content')
 <div class ="container-fluid no-padding">
-    <section class="row">
-        <div class="section-1">
-            <button type="button" class="btn btn-outline-light btn-section" style="margin-left: 500px; margin-top: 250px" href="{{ url('market') }}">Explore market</button>
+    <section class="row" style="margin-top: 13px">
+        <div class="section-1 justify-content-center">
+            <button type="button" class="btn btn-outline-light btn-section" style="margin-top: 250px" href="{{ url('market') }}">Explore market</button>
             <button type="button" class="btn btn-light btn-section" style="margin-top: 250px" href="#">Register now!</button>
         </div>
     </section>
