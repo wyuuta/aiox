@@ -8,6 +8,23 @@
  */
 
 
+.kode-cell, .name-cell{
+  width: 15%;
+  text-align: center;   
+}
+
+.saldo-cell{
+  width: auto;
+  text-align: center;   
+
+}
+
+.aksi-cell{
+  width: 30%;
+  text-align: center;   
+
+}
+
 #regForm, #regFormBuy, #regFormSell{
   background-color: #ffffff;
   margin: 100px auto;

@@ -26,15 +26,12 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top" style="height: 75px">
+            <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
+            <div class="container">
+                
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     @yield('navbarlink')
@@ -82,8 +79,8 @@
             @yield('content')
         </main>
         <footer class="footer">
-            <div class="container">
-                <span class="text-muted">Copyright All in One Exchange©  2018</span>
+            <div class="row justify-content-center">
+                <h5 class="text-muted">Copyright All in One Exchange©  2018</h5>
             </div>
             
         </footer>

@@ -24,11 +24,15 @@ Route::get("/market","TradingController@showMarket")->name('market');
 
 Route::get("/instant", "TradingController@showInstant")->name('instant');
 
-Route::get("/balance","TradingController@showMarket")->name('balance');
+Route::get("/balance","TradingController@showBalance")->name('balance');
 
 Route::get("/profil","TradingController@showMarket")->name('profil');
 
 Route::get("/main");
+
+Route::get("/rupiah", function(){
+	return view('rupiah');
+})->name('rupiah');
 
 // Example to get real time crypto price data
 Route::get('/contoh', function(){

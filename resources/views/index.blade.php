@@ -3,8 +3,8 @@
 <div class ="container-fluid no-padding">
     <section class="row">
         <div class="section-1">
-            <button type="button" class="btn btn-outline-light btn-section" style="margin-left: 500px; margin-top: 250px">Explore market</button>
-            <button type="button" class="btn btn-light btn-section" style="margin-top: 250px">Register now!</button>
+            <button type="button" class="btn btn-outline-light btn-section" style="margin-left: 500px; margin-top: 250px" href="{{ url('market') }}">Explore market</button>
+            <button type="button" class="btn btn-light btn-section" style="margin-top: 250px" href="#">Register now!</button>
         </div>
     </section>
     <section class="row" style="background: url('{{URL::asset('/image/index_section_2_img.jpg')}}')no-repeat center center /cover; height: 600px; opacity: 50%; filter: alpha(opacity=50);">
@@ -91,7 +91,7 @@
             </table>
         </div>
     </section>
-    <section class="row jumbotron-fluid bg-dark">
+    <section class="row jumbotron-fluid bg-dark" id="Register">
         <h1 class="text-light" style="margin-left: 300px; margin-top:100px margin-bottom:100px"> 
             Daftar dan Mulai Trading Sekarang!
         </h1>

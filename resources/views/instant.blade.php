@@ -12,7 +12,7 @@
     <!-- list crypto -->
     <section class="row">
         <div class="container-fluid">
-        <table class="table table-light table-hover table-responsive-lg table-bordered" style="padding: 50px;">
+        <table class="table-bordered table-light table-hover table-responsive-lg table-bordered" style="padding: 50px;">
             <thead>
                 <tr>
                     <th>Crypto currency</th>
@@ -207,7 +207,7 @@
                         <h5> Jumlah ripple:</h5>
                     </div>
                     <div class="col-5">
-                        <input style="float: right; max-width: 250px" placeholder="Jumlah Rupiah..." oninput="this.className = ''" name="inputSell">
+                        <input style="float: right; max-width: 250px" placeholder="Jumlah Ripple..." oninput="this.className = ''" name="inputSell">
 
                     </div>
                 </div>

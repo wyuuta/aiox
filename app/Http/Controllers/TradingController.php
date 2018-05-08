@@ -163,4 +163,14 @@ class TradingController extends Controller
     {
         return view('instant');
     }
+
+    /**
+     * Show the application balance.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showBalance()
+    {
+        return view('balance');
+    }
 }
