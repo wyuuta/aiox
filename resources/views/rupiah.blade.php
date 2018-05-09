@@ -1,7 +1,42 @@
 @extends('layouts.wddepo')
 
 @section('depocontent')
-<h3>Ini Deposit Rupiah</h3>
+<div class="row">
+	<div class="col-md-12">
+		<div class="col-md-6">
+			<div class="form-group">
+				<div class="col-md-12" style="padding: 20px 20px;">
+					Kami menerima beberapa metode pembayaran untuk memudahkan para member dalam melakukan deposit Rupiah ke akun Indodax. Silakan masukan nominal deposit yang Anda inginkan dan pilih sumber dana/metode pembayaran yang paling mudah untuk Anda.
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-3 no-padding no-margin">Jumlah deposit:</label>
+				<input class="col-md-8 no-padding no-margin" type="text" name="" placeholder="Jumlah deposit"/>
+			</div>
+			<div class="form-group">
+				<div class="row" style="padding-left: 20px;">
+				<label class="col-md-3 no-padding no-margin">Sumber dana:</label>
+				<div class="col-md-8">
+					<div class="dropdown">
+						<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+    						Pilihan Bank
+  						</button>
+						<div class="dropdown-menu">
+							<a class="dropdown-item">Bank Mandiri</a>
+							<a class="dropdown-item">Bank BCA</a>
+							<a class="dropdown-item">Bank BNI</a>
+						</div>
+					</div>
+				</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-3 no-padding no-margin">Nomer rekening anda:</label>
+				<input class="col-md-8 no-padding no-margin" type="text" name=""/>
+			</div>
+		</div>
+	</div>
+</div>
 @endsection
 
 @section('wdcontent')
@@ -13,11 +48,11 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-md-3 no-padding no-margin">Jumlah penarikan</label>
+			<label class="col-md-3 no-padding no-margin">Jumlah penarikan:</label>
 			<input class="col-md-8 no-padding no-margin" type="text" name="" placeholder="Jumlah penarikan"/>
 		</div>
 		<div class="form-group">
-			<label class="col-md-3 no-padding no-margin">Biaya penarikan</label>
+			<label class="col-md-3 no-padding no-margin">Biaya penarikan:</label>
 			<input class="col-md-8 no-padding no-margin" type="text" name="" readonly="readonly" value="0">
 		</div>
 		<div class="form-group">
@@ -49,8 +84,8 @@
 @endsection
 @section('historycontent')
 <div class="row">
-	<div class="col-md-12">
-		<h5><strong>Riwayat Mutasi Rupiah</strong></h5>
+	<div class="col-md-12 justify-content-center">
+		<h5 style="text-align: center;"><strong>Riwayat Mutasi Rupiah</strong></h5>
 		<table class="table table-bordered table-striped table-dark">
 			<thead>
 				<tr>

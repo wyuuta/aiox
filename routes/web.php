@@ -34,6 +34,10 @@ Route::get("/rupiah", function(){
 	return view('rupiah');
 })->name('rupiah');
 
+Route::get("/btc", function(){
+	return view('btc');
+})->name('btc');
+
 // Example to get real time crypto price data
 Route::get('/contoh', function(){
 	$client = new Client();
