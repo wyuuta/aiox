@@ -7,6 +7,52 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 
+.mt15{
+  margin:15px;
+}
+
+.sidenav {
+    margin-top: 80px;
+    margin-left: 5px;
+    margin-bottom: 50px;
+    
+    height: 1080px;
+    width: auto;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #3a434a;
+    overflow-x: hidden;
+}
+
+.sidenav li .active{
+  background-color: #2a333a;
+  height: 100%;
+}
+
+.sidenav .menu{
+  padding-bottom: 20px;
+  padding-left: 10px;
+}
+
+.sidenav .profilepict{
+  padding: 20px 20px;
+}
+
+.sidenav a {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+
 .nav-item .nav-link .active{
   color: #FFF;  
 }

@@ -26,7 +26,11 @@ Route::get("/instant", "TradingController@showInstant")->name('instant');
 
 Route::get("/balance","TradingController@showBalance")->name('balance');
 
-Route::get("/profil","TradingController@showMarket")->name('profil');
+// Route::get("/profil","TradingController@showMarket")->name('profil');
+
+Route::get("/profil",function(){
+	return view('profile');
+})->name('profil');
 
 Route::get("/main");
 
