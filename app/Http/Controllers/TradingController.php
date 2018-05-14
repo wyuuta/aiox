@@ -237,34 +237,4 @@ class TradingController extends Controller
         $trans2->value = $amount*$ord->rate;
         $trans2->save();
     }
-
-    /**
-     * Show the application trading market.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function showMarket()
-    {
-        return view('market');
-    }
-
-    /**
-     * Show the application instant trade.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function showInstant()
-    {
-        return view('instant');
-    }
-
-    /**
-     * Show the application balance.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function showBalance()
-    {
-        return view('balance');
-    }
 }

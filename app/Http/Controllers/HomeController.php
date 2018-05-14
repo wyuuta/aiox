@@ -35,4 +35,12 @@ class HomeController extends Controller
         dd(json_decode($res->getBody()));
         return view('chart');
     }
+
+    public function showCryptoCharts()
+    {
+        $client = new Client();
+        $res = $client->request('GET', 'https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH&tsyms=IDR');
+        dd(json_decode($res->getBody()));
+        return view('chart');
+    }
 }
