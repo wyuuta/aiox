@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMainThreadsTable extends Migration
+class CreateOrdersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,14 @@ class CreateMainThreadsTable extends Migration
      */
     public function up()
     {
-        Schema::create('main_threads', function (Blueprint $table) {
-            $table->increments('thread_id');
-            $table->string('title');
-            $table->string('description');
+        Schema::create('orders', function (Blueprint $table) {
+            $table->increments('trade_id');
             $table->integer('user_id');
+            $table->string('type');
+            $table->string('from_curr');
+            $table->string('to_curr');
+            $table->double('rate',20,7);
+            $table->double('amount',20,7);
             $table->timestamps();
         });
     }
@@ -29,6 +32,6 @@ class CreateMainThreadsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('main_threads');
+        Schema::dropIfExists('orders');
     }
 }
