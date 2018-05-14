@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTradesTable extends Migration
+class CreateOrderGroupsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreateTradesTable extends Migration
      */
     public function up()
     {
-        Schema::create('trades', function (Blueprint $table) {
-            $table->increments('trade_id');
-            $table->integer('user_id');
+        Schema::create('order_groups', function (Blueprint $table) {
+            $table->increments('trade_group_id');
+            $table->double('rate',20,7);
+            $table->string('type');
             $table->string('from_curr');
             $table->string('to_curr');
-            $table->double('rate',8,2);
-            $table->boolean('is_active');
+            $table->double('total',20,7);
             $table->timestamps();
         });
     }
@@ -31,6 +31,6 @@ class CreateTradesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('trades');
+        Schema::dropIfExists('order_groups');
     }
 }

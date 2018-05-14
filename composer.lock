@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "7ddc1e6960f8f0594201971e2e045ad9",
+    "content-hash": "d7d80af7992d5bc1d82c93c08f35bdeb",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -378,7 +378,17 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/guzzle/guzzle/zipball/407b0cb880ace85c9b63c5f9551db498cb2d50ba",
                 "reference": "407b0cb880ace85c9b63c5f9551db498cb2d50ba",
+<<<<<<< 2abdc70fe2ec76c3585e4c06d260614ab511fb6f
                 "shasum": ""
+=======
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+>>>>>>> remove forum finx transaction and trading
             },
             "require": {
                 "guzzlehttp/promises": "^1.0",
@@ -443,7 +453,17 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/guzzle/promises/zipball/a59da6cf61d80060647ff4d3eb2c03a2bc694646",
                 "reference": "a59da6cf61d80060647ff4d3eb2c03a2bc694646",
+<<<<<<< 2abdc70fe2ec76c3585e4c06d260614ab511fb6f
                 "shasum": ""
+=======
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+>>>>>>> remove forum finx transaction and trading
             },
             "require": {
                 "php": ">=5.5.0"
@@ -494,7 +514,17 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/guzzle/psr7/zipball/f5b8a8512e2b58b0071a7280e39f14f72e05d87c",
                 "reference": "f5b8a8512e2b58b0071a7280e39f14f72e05d87c",
+<<<<<<< 2abdc70fe2ec76c3585e4c06d260614ab511fb6f
                 "shasum": ""
+=======
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+>>>>>>> remove forum finx transaction and trading
             },
             "require": {
                 "php": ">=5.4.0",
@@ -1211,7 +1241,17 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/php-fig/http-message/zipball/f6561bf28d520154e4b0ec72be95418abe6d9363",
                 "reference": "f6561bf28d520154e4b0ec72be95418abe6d9363",
+<<<<<<< 2abdc70fe2ec76c3585e4c06d260614ab511fb6f
                 "shasum": ""
+=======
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+>>>>>>> remove forum finx transaction and trading
             },
             "require": {
                 "php": ">=5.3.0"

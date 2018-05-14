@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Trades;
 use App\Wallet;
 use App\Transactions;
+use App\Order;
+use App\OrderGroup;
 use Redirect;
 
 class TradingController extends Controller
@@ -15,133 +16,226 @@ class TradingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function showTradingList(Request $request)
+    public function showBuyOrder(Request $request)
     {
         //function to show trading list
-        $trades = Trades::all()->paginate(20);
-        return view ('tradelist',$trades);
+        $buygroup = OrderGroup::where('type','BUY')->paginate(20);
+        return view ('buylist',$buygroup);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function showSellOrder(Request $request)
     {
-        //
+        //function to show trading list
+        $buygroup = OrderGroup::where('type','SELL')->paginate(20);
+        return view ('selllist',$sellgroup);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function createNewTrading(Request $request)
-    {
-        //function to store new trade
-        $trade = new Trades;
-        $trade->user_id = Auth::user()->id;
-        $trade->from_curr = $request->from_curr;
-        $trade->to_curr = $request->to_curr;
-        $trade->rate = $request->rate;
-        $trade->is_active = 1;
-        $trade->save();
-
-        return Redirect::to('/tradelist');
-    }
-
-    public function buyFromUser(Request $request)
-    {
-        //function to trade with other user based on trade list
-        $trade = Trades::where('trade_id',$request->thread_id);
-        $user_wallet_from = Wallet::where('user_id',Auth::user()->id)->where('curency',$trade->from_curr)->get();
-        $user_wallet_to = Wallet::where('user_id',Auth::user()->id)->where('curency',$trade->to_curr)->get();
-        $seller_wallet_from = Wallet::where('user_id',$request->seller_id)->where('curency',$trade->from_curr)->get();
-        $seller_wallet_to = Wallet::where('user_id',$request->seller_id)->where('curency',$trade->to_curr)->get();
-
-        if($request->value > $seller_wallet_from->balance || ($request->value*$trade->rate) > $user_wallet_to){
-            Session::flash('message','Error!');
-            return Redirect::to('/tradelist');
+    public function createBuyOrder(Request $request)
+    {  
+        $sellgroup = OrderGroup::where('rate','<=', $request->rate)->where('type','SELL')->where('from_curr',$request->from_curr)->where('to_curr',$request->to_curr)->orderBy('rate')->get();
+        $userwallet_from = Wallet::where('user_id',Auth::user()->id)->where('currency',$request->from_curr);
+        $userwallet_to = Wallet::where('user_id',Auth::user()->id)->where('currency',$request->to_curr);
+        $amount = $request->amount;
+        if($amount*$request->rate > $userwallet_to->balance){
+            //error
+            Session::flash('message','Balance tidak cukup!');
+            return Redirect::to('/trading');
         }
-        //resolve transaction
-        $user_wallet_from->balance += $request->value;
-        $user_wallet_from->save();
+        foreach($sellgroup as $sell){
+            $orders = Order::where('type',"SELL")->where('rate',$sell->rate)->where('from_curr',$request->to_curr)->where('to_curr',$request->from_curr)->orderBy('created_at')->get();
+            $flag = 0;
+            foreach($orders as $ord){
+                if ($amount > $ord->amount){
+                    $amount -= $ord->$amount;
+                    $sell->total -= $ord->$amount;
+                    createBuyTransaction($userwallet_from,$userwallet_to,$ord,$ord->amount);
+                    $ord->delete();
+                }
+                else if ($amount < $ord->amount){
+                    $ord->amount -= $amount;
+                    $sell->total -= $amount;
+                    $amount = 0;
+                    createBuyTransaction($userwallet_from,$userwallet_to,$ord,$amount);
+                    $ord->save();
+                    $flag = 1;
+                }
+                else{
+                    $amount = 0;
+                    createBuyTransaction($userwallet_from,$userwallet_to,$ord,$amount);
+                    $ord->delete();
+                    $flag = 1;
+                }
+                if($flag)
+                    break;
+            }
+            if($sell->total == 0)
+                $sell->delete();
+            else
+                $sell->save();
+            if($flag)
+                break;
+        }
+        
+        if($amount!=0){
+            $order = new Order;
+            $order->user_id = Auth::user()->id;
+            $order->type = "BUY";
+            $order->from_curr = $request->from_curr;
+            $order->to_curr = $request->to_curr;
+            $order->rate = $request->rate;
+            $order->amount = $amount;
+            $order->save();
+        }
 
-        $user_wallet_to->balance -= $request->value*$trade->rate;
-        $user_wallet_to->save();
-
-        $seller_wallet_from->balance -= $request->value;
-        $seller_wallet_from->save();
-
-        $sellet_wallet_to->balance += $request->value*$trade->rate;
-        $seller_wallet_from->save();
-
-        //log transaction
-        $transaction = new Transactions;
-        $transaction->from_user = Auth::user()->id;
-        $transaction->to_user = $request->seller_id;
-        $transaction->from_curr = $trade->from_curr;
-        $transaction->to_curr = $trade->to_curr;
-        $transaction->from_value = $request->value*$trade->rate;
-        $transaction->to_value = $request->value;
-        $transaction->save();
-
-        $transaction = new Transactions;
-        $transaction->from_user = $request->seller_id;
-        $transaction->to_user = Auth::user()->id;
-        $transaction->from_curr = $trade->to_curr;
-        $transaction->to_curr = $trade->from_curr;
-        $transaction->from_value = $request->value;
-        $transaction->to_value = $request->value*$trade->rate;
-        $transaction->save();
-
-        return Redirect::to('/tradelist');
-    }
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
+        $group = OrderGroup::where('rate',$request->rate)->where('type','BUY')->get();
+        if ($group == null){
+            $buyorder = new OrderGroup;
+            $buyorder->type = 'BUY';
+            $buyorder->rate = $request->rate;
+            $buyorder->from_curr = $request->from_curr;
+            $buyorder->to_curr = $request->to_curr;
+            $buyorder->total = $amount;
+        }
+        else{
+            $group->total += $amount;
+            $group->save();
+        }
+        return Redirect::to('/trading')
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function createSellOrder(Request $request)
     {
-        //
+       $buygroup = OrderGroup::where('rate','<=', $request->rate)->where('type','BUY')->where('from_curr',$request->from_curr)->where('to_curr',$request->to_curr)->orderBy('rate')->get();
+        $userwallet_from = Wallet::where('user_id',Auth::user()->id)->where('currency',$request->from_curr);
+        $userwallet_to = Wallet::where('user_id',Auth::user()->id)->where('currency',$request->to_curr);
+        $amount = $request->amount;
+        if($amount > $userwallet_from->balance){
+            //error
+            Session::flash('message','Balance tidak cukup!');
+            return Redirect::to('/trading');
+        }
+        foreach($buygroup as $buy){
+            $orders = Order::where('type',"BUY")->where('rate',$sell->rate)->where('from_curr',$request->to_curr)->where('to_curr',$request->from_curr)->orderBy('created_at')->get();
+            $flag = 0;
+            foreach($orders as $ord){
+                if ($amount > $ord->amount){
+                    $amount -= $ord->$amount;
+                    $buy->total -= $ord->$amount;
+                    createSellTransaction($userwallet_from,$userwallet_to,$ord,$ord->amount);
+                    $ord->delete();
+                }
+                else if ($amount < $ord->amount){
+                    $ord->amount -= $amount;
+                    $sell->total -= $amount;
+                    $amount = 0;
+                    createSellTransaction($userwallet_from,$userwallet_to,$ord,$amount);
+                    $ord->save();
+                    $flag = 1;
+                }
+                else{
+                    $amount = 0;
+                    createSellTransaction($userwallet_from,$userwallet_to,$ord,$amount);
+                    $ord->delete();
+                    $flag = 1;
+                }
+                if($flag)
+                    break;
+            }
+            if($buy->total == 0)
+                $buy->delete();
+            else
+                $buy->save();
+            if($flag)
+                break;
+        }
+        
+        if($amount!=0){
+            $order = new Order;
+            $order->user_id = Auth::user()->id;
+            $order->type = "SELL";
+            $order->from_curr = $request->from_curr;
+            $order->to_curr = $request->to_curr;
+            $order->rate = $request->rate;
+            $order->amount = $amount;
+            $order->save();
+        }
+
+        $group = OrderGroup::where('rate',$request->rate)->where('type','SELL')->get();
+        if ($group == null){
+            $buyorder = new OrderGroup;
+            $buyorder->type = 'SELL';
+            $buyorder->rate = $request->rate;
+            $buyorder->from_curr = $request->from_curr;
+            $buyorder->to_curr = $request->to_curr;
+            $buyorder->total = $amount;
+        }
+        else{
+            $group->total += $amount;
+            $group->save();
+        }
+        return Redirect::to('/trading');
+    }
+
+    private function createBuyTransaction($userwallet_from,$userwallet_to,$ord,$amount)
+    {
+        $otherwallet_from = Wallet::where('user_id',$ord->user_id)->where('currency',$ord->from_curr);
+        $otherwallet_to = Wallet::where('user_id',$ord->user_id)->where('currency',$ord->to_curr);
+
+        $userwallet_from->balance += $amount;
+        $userwallet_from->save();
+        $userwallet_to->balance -= $amount*$ord->rate;
+        $userwallet_to->save();
+        $otherwallet_from->balance -= $amount;
+        $otherwallet_from->save();
+        $otherwallet_to->balance += $amount*$ord->rate;
+        $otherwallet_to->save();
+
+        $trans1 = new Transactions;
+        $trans1->from_user = Auth::user()->id;
+        $trans1->to_user = $ord->user_id;
+        $trans1->currency = $ord->to_curr;
+        $trans1->type = "TRADE";
+        $trans1->value = $amount*$ord->rate;
+        $trans1->save();
+    
+        $trans2 = new Transactions;
+        $trans2->from_user = $ord->user_id;
+        $trans2->to_user = Auth::user()->id;
+        $trans2->currency = $ord->from_curr;
+        $trans2->type = "TRADE";
+        $trans2->value = $amount;
+        $trans2->save();
+    }
+
+    private function createSellTransaction($userwallet_from,$userwallet_to,$ord,$amount)
+    {
+        $otherwallet_from = Wallet::where('user_id',$ord->user_id)->where('currency',$ord->from_curr);
+        $otherwallet_to = Wallet::where('user_id',$ord->user_id)->where('currency',$ord->to_curr);
+
+        $userwallet_from->balance -= $amount;
+        $userwallet_from->save();
+        $userwallet_to->balance += $amount*$ord->rate;
+        $userwallet_to->save();
+        $otherwallet_from->balance += $amount;
+        $otherwallet_from->save();
+        $otherwallet_to->balance -= $amount*$ord->rate;
+        $otherwallet_to->save();
+
+        $trans1 = new Transactions;
+        $trans1->from_user = Auth::user()->id;
+        $trans1->to_user = $ord->user_id;
+        $trans1->currency = $ord->to_curr;
+        $trans1->type = "TRADE";
+        $trans1->value = $amount;
+        $trans1->save();
+    
+        $trans2 = new Transactions;
+        $trans2->from_user = $ord->user_id;
+        $trans2->to_user = Auth::user()->id;
+        $trans2->currency = $ord->from_curr;
+        $trans2->type = "TRADE";
+        $trans2->value = $amount*$ord->rate;
+        $trans2->save();
     }
 
     /**

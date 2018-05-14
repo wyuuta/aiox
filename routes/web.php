@@ -10,7 +10,6 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-use GuzzleHttp\Client;
 use Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory;
 Route::get('/', function () {
     return view('index');
@@ -42,11 +41,4 @@ Route::get("/btc", function(){
 	return view('btc');
 })->name('btc');
 
-// Example to get real time crypto price data
-Route::get('/contoh', function(){
-	$client = new Client();
-    $response = $client->get("https://min-api.cryptocompare.com/data/pricemultifull?fsyms=BTC&tsyms=USD,EUR");
-
-	return $response;
-});
-
+Route::get('/chart', 'HomeController@showCryptoCharts')->name('chart');

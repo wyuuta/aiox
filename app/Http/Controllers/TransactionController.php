@@ -14,13 +14,13 @@ class TransactionController extends Controller
     public function showUserTransactions()
     {
         //function to show user transactions
-        $transactions = Transactions::where('from_user',Auth::user()->id)->get();
+        $transactions = Transactions::where('from_user',Auth::user()->id)->orWhere('to_user',Auth::user()->id)->paginate(100);
         return view("trans",$transactions);
     }
 
     public function openTransactionPage(){
         //function to open transaction page
-        $wallets = Wallet::where('user_id', Auth::user()->id)->get();
+        $wallets = Wallet::where('user_id', Auth::user()->id)->get()+;
         return view('transpg',$wallets);
     }
 
@@ -38,13 +38,13 @@ class TransactionController extends Controller
             Session::flash('message','Balance uang tidak cukup!');
             return Redirect::to('/transpg');
         }
+
         $transaction = new Transactions;
         $transaction->from_user = Auth::user()->id;
         $transaction->to_user = Auth::user()->id;
-        $transaction->from_curr = $request->curr;
-        $transaction->to_curr = $request->curr;
-        $transaction->from_value = $wallet->balance;
-        $transaction->to_value = $wallet->balance-$request->value;
+        $transaction->currency = $request->curr;
+        $transaction->type = 'WITHDRAW';
+        $transaction->value = $request->value;
         $transaction->save();
 
 
@@ -58,13 +58,12 @@ class TransactionController extends Controller
     public function depositMoney(Request $request)
     {
         //function to increase user's wallet and log transaction
-        $transaction = new Transaction;
+        $transaction = new Transactions;
         $transaction->from_user = Auth::user()->id;
         $transaction->to_user = Auth::user()->id;
-        $transaction->from_curr = $request->curr;
-        $transaction->to_curr = $request->curr;
-        $transaction->from_value = $wallet->balance;
-        $transaction->to_value = $wallet->balance+$request->value;
+        $transaction->currency = $request->curr;
+        $transaction->type = 'DEPOSIT';
+        $transaction->value = $request->value;
         $transaction->save();
 
 
@@ -87,10 +86,9 @@ class TransactionController extends Controller
         $transaction = new Transactions;
         $transaction->from_user = Auth::user()->id;
         $transaction->to_user = Auth::user()->id;
-        $transaction->from_curr = $request->curr;
-        $transaction->to_curr = $request->curr;
-        $transaction->from_value = $wallet->balance;
-        $transaction->to_value = $wallet->balance-$request->value;
+        $transaction->currency = $request->curr;
+        $transaction->type = 'WITHDRAW';
+        $transaction->value = $request->value;
         $transaction->save();
 
         $wallet->balance -= $request->value;
@@ -106,59 +104,4 @@ class TransactionController extends Controller
 
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }
