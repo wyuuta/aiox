@@ -7,7 +7,6 @@ use App\Wallet;
 use App\Transactions;
 use App\Order;
 use App\OrderGroup;
-use Redirect;
 use Auth;
 
 class TradingController extends Controller
@@ -40,7 +39,7 @@ class TradingController extends Controller
         if($amount*$request->rate > $userwallet_to->balance){
             //error
             Session::flash('message','Balance tidak cukup!');
-            return Redirect::to('/trading');
+            return redirect('/trading');
         }
         foreach($sellgroup as $sell){
             $orders = Order::where('type',"SELL")->where('rate',$sell->rate)->where('from_curr',$request->to_curr)->where('to_curr',$request->from_curr)->orderBy('created_at')->get();
@@ -49,20 +48,20 @@ class TradingController extends Controller
                 if ($amount > $ord->amount){
                     $amount -= $ord->$amount;
                     $sell->total -= $ord->$amount;
-                    createBuyTransaction($userwallet_from,$userwallet_to,$ord,$ord->amount);
+                    $this->createBuyTransaction($userwallet_from,$userwallet_to,$ord,$ord->amount);
                     $ord->delete();
                 }
                 else if ($amount < $ord->amount){
                     $ord->amount -= $amount;
                     $sell->total -= $amount;
                     $amount = 0;
-                    createBuyTransaction($userwallet_from,$userwallet_to,$ord,$amount);
+                    $this->createBuyTransaction($userwallet_from,$userwallet_to,$ord,$amount);
                     $ord->save();
                     $flag = 1;
                 }
                 else{
                     $amount = 0;
-                    createBuyTransaction($userwallet_from,$userwallet_to,$ord,$amount);
+                    $this->createBuyTransaction($userwallet_from,$userwallet_to,$ord,$amount);
                     $ord->delete();
                     $flag = 1;
                 }
@@ -101,7 +100,7 @@ class TradingController extends Controller
             $group->total += $amount;
             $group->save();
         }
-        return Redirect::to('/trading');
+        return redirect('/trading');
     }
 
     public function createSellOrder(Request $request)
@@ -122,20 +121,20 @@ class TradingController extends Controller
                 if ($amount > $ord->amount){
                     $amount -= $ord->$amount;
                     $buy->total -= $ord->$amount;
-                    createSellTransaction($userwallet_from,$userwallet_to,$ord,$ord->amount);
+                    $this->createSellTransaction($userwallet_from,$userwallet_to,$ord,$ord->amount);
                     $ord->delete();
                 }
                 else if ($amount < $ord->amount){
                     $ord->amount -= $amount;
                     $sell->total -= $amount;
                     $amount = 0;
-                    createSellTransaction($userwallet_from,$userwallet_to,$ord,$amount);
+                    $this->createSellTransaction($userwallet_from,$userwallet_to,$ord,$amount);
                     $ord->save();
                     $flag = 1;
                 }
                 else{
                     $amount = 0;
-                    createSellTransaction($userwallet_from,$userwallet_to,$ord,$amount);
+                    $this->createSellTransaction($userwallet_from,$userwallet_to,$ord,$amount);
                     $ord->delete();
                     $flag = 1;
                 }
@@ -174,7 +173,7 @@ class TradingController extends Controller
             $group->total += $amount;
             $group->save();
         }
-        return Redirect::to('/trading');
+        return redirect('/trading');
     }
 
     private function createBuyTransaction($userwallet_from,$userwallet_to,$ord,$amount)

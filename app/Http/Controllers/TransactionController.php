@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Transactions;
 use App\Wallet;
 use Session;
-use Redirect;
 use Auth;
 
 class TransactionController extends Controller
@@ -43,7 +42,6 @@ class TransactionController extends Controller
     public function withdrawMoney(Request $request)
     {
         //function to decrease user's wallet and log transaction
-        // dd($request);
         $wallet = Wallet::where('user_id', Auth::user()->id)->where('currency',$request->curr)->first();
         if($request->value > $wallet->balance){
             Session::flash('message','Balance uang tidak cukup!');
@@ -58,12 +56,11 @@ class TransactionController extends Controller
         $transaction->value = floatval($request->value);
         $transaction->save();
 
-        // dd($wallet);
         $wallet->balance -= floatval($request->value);
         $wallet->save();
 
         Session::flash('message','Penarikan uang berhasil!');
-        return Redirect::to('/balance');    
+        return redirect('/balance');
     }
 
     public function depositMoney(Request $request)
@@ -82,38 +79,92 @@ class TransactionController extends Controller
         $wallet->balance += floatval($request->value);
         $wallet->save();
 
-        return Redirect::to('/balance');
+        return redirect('/balance');
 
     }
 
-    public function withdrawCrypto(Request $request)
+    public function instantBuy(Request $request)
     {
-        //function to decrease user's wallet and log transaction
-        $wallet = Wallet::where('user_id', Auth::user()->id)->where('currency',$request->curr)->get();
-        if($request->value > $wallet->balance){
+        //function to buy crypto with current price
+        $wallet_to = Wallet::where('user_id', Auth::user()->id)->where('currency',$request->curr)->first();
+        $wallet_from = Wallet::where('user_id', Auth::user()->id)->where('currency',"IDR")->first();
+        $client = new Client();
+        $res = $client->request('GET', 'https://min-api.cryptocompare.com/data/price?fsym='.$request->curr.'&tsyms=IDR');
+        $arr = json_decode($res->getBody());
+        $price = floatval($arr[$request->curr]);
+        
+        if($request->value*$price > $wallet_from->balance){
             Session::flash('message','Balance uang tidak cukup!');
-            return Redirect::to('/transpg');
+            return redirect('/instant');
         }
+
 
         $transaction = new Transactions;
         $transaction->from_user = Auth::user()->id;
         $transaction->to_user = Auth::user()->id;
         $transaction->currency = $request->curr;
-        $transaction->type = 'WITHDRAW';
-        $transaction->value = $request->value;
+        $transaction->type = 'BUY_'.$request->curr;
+        $transaction->value = floatval($request->value);
         $transaction->save();
 
-        $wallet->balance -= $request->value;
-        $wallet->save();
+        $transaction = new Transactions;
+        $transaction->from_user = Auth::user()->id;
+        $transaction->to_user = Auth::user()->id;
+        $transaction->currency = "IDR";
+        $transaction->type = 'USE_BUY_'.$request->curr;
+        $transaction->value = floatval($request->value*$price);
+        $transaction->save();
 
-        Session::flash('message','Penarikan crypto berhasil!');
-        return Redirect::to('/transpg');
+        $wallet_from->balance -= floatval($request->value*$price);
+        $wallet_from->save();
+
+        $wallet_to->balance +=floatval($request->value);
+        $wallet_to->save();
+
+        Session::flash('message','Penarikan uang berhasil!');
+        return redirect('/instant');
     }
 
-    public function depositCrypto(Request $request)
+    public function instantSell(Request $request)
     {
-        //
+        //function to sell crypto with current price
+        $wallet_from = Wallet::where('user_id', Auth::user()->id)->where('currency',$request->curr)->first();
+        $wallet_to = Wallet::where('user_id', Auth::user()->id)->where('currency',"IDR")->first();
+        $client = new Client();
+        $res = $client->request('GET', 'https://min-api.cryptocompare.com/data/price?fsym='.$request->curr.'&tsyms=IDR');
+        $arr = json_decode($res->getBody());
+        $price = floatval($arr[$request->curr]);
+        
+        if(floatval($request->value)*$price > $wallet_from->balance){
+            Session::flash('message','Balance uang tidak cukup!');
+            return redirect('/instant');
+        }
 
+
+        $transaction = new Transactions;
+        $transaction->from_user = Auth::user()->id;
+        $transaction->to_user = Auth::user()->id;
+        $transaction->currency = $request->curr;
+        $transaction->type = 'SELL_'.$request->curr;
+        $transaction->value = floatval($request->value);
+        $transaction->save();
+
+        $transaction = new Transactions;
+        $transaction->from_user = Auth::user()->id;
+        $transaction->to_user = Auth::user()->id;
+        $transaction->currency = "IDR";
+        $transaction->type = 'GET_SELL_'.$request->curr;
+        $transaction->value = floatval($request->value*$price);
+        $transaction->save();
+
+        $wallet_from->balance += floatval($request->value*$price);
+        $wallet_from->save();
+
+        $wallet_to->balance -= floatval($request->value);
+        $wallet_to->save();
+
+        Session::flash('message','Penarikan uang berhasil!');
+        return redirect('/instant');
     }
 
 }
