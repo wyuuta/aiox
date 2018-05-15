@@ -35,7 +35,8 @@ class HomeController extends Controller
     public function showWallet()
     {
         $wallet = Wallet::where('user_id',Auth::user()->id)->get();
-        return view('balance',$wallet);
+        data['wallet'] = $wallet;
+        return view('balance',$data);
     }
 
     public function showCryptoCharts()
@@ -49,7 +50,8 @@ class HomeController extends Controller
     public function showUserInfo()
     {
         $info = Auth::user();
-        return view('profil',$info);
+        $data['info'] = $info;
+        return view('profil',$data);
     }
 
     public function editUser(Request $request)

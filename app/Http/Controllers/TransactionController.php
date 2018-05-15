@@ -16,7 +16,8 @@ class TransactionController extends Controller
     {
         //function to show user transactions
         $transactions = Transactions::where('currency',$curr)->where('from_user',Auth::user()->id)->orWhere('to_user',Auth::user()->id)->paginate(100);
-        $data = array('var1'=>$curr, 'var2'=>$transactions);
+        $data['curr'] = $curr;
+        $data['transactions'] = $transactions;
         return view("rupiah",$data);
     }
 

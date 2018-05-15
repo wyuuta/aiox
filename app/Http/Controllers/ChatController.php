@@ -13,7 +13,8 @@ class ChatController extends Controller
     {
         //function to show chats between 2 users
         $chats = Chat::all()->get();
-        return view('chatbox',$chats);
+        $data['chats'] = $chats;
+        return view('chatbox',$data);
     }
 
     public function insertChat(Request $request)
@@ -24,6 +25,6 @@ class ChatController extends Controller
         $chat->content = $request->content;
         $chat->save();
 
-        return getChat();
+        return redirect('/chatbox');
     }
 }
