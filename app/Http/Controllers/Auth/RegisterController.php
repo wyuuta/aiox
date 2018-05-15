@@ -78,18 +78,21 @@ class RegisterController extends Controller
         $wallet = new Wallet;
         $wallet->user_id = $user->id;
         $wallet->currency = "IDR";
+        $wallet->currency_name = "Rupiah";
         $wallet->balance = 0;
         $wallet->save();
 
         $wallet = new Wallet;
         $wallet->user_id = $user->id;
         $wallet->currency = "BTC";
+        $wallet->currency_name = "Bitcoin";
         $wallet->balance = 0;
         $wallet->save();
 
         $wallet = new Wallet;
         $wallet->user_id = $user->id;
         $wallet->currency = "ETH";
+        $wallet->currency_name = "Etherium";
         $wallet->balance = 0;
         $wallet->save();
     }
