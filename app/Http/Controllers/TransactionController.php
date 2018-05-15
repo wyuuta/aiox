@@ -11,16 +11,16 @@ use Redirect;
 class TransactionController extends Controller
 {
 
-    public function showUserTransactions()
+    public function showUserTransactions($curr)
     {
         //function to show user transactions
-        $transactions = Transactions::where('from_user',Auth::user()->id)->orWhere('to_user',Auth::user()->id)->paginate(100);
-        return view("trans",$transactions);
+        $transactions = Transactions::where('currency',$curr)->where('from_user',Auth::user()->id)->orWhere('to_user',Auth::user()->id)->paginate(100);
+        return view("trans",$curr,$transactions);
     }
 
     public function openTransactionPage(){
         //function to open transaction page
-        $wallets = Wallet::where('user_id', Auth::user()->id)->get()+;
+        $wallets = Wallet::where('user_id', Auth::user()->id)->get();
         return view('transpg',$wallets);
     }
 

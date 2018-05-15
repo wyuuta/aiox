@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
+use App\Wallet;
 
 class HomeController extends Controller
 {
@@ -28,12 +29,10 @@ class HomeController extends Controller
         return view("home");
     }
 
-    public function showCryptoCharts()
+    public function showWallet()
     {
-        $client = new Client();
-        $res = $client->request('GET', 'https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH&tsyms=IDR');
-        dd(json_decode($res->getBody()));
-        return view('chart');
+        $wallet = Wallet::where('user_id',Auth::user()->id)->get();
+        return view('balance',$wallet);
     }
 
     public function showCryptoCharts()

@@ -100,7 +100,7 @@ class TradingController extends Controller
             $group->total += $amount;
             $group->save();
         }
-        return Redirect::to('/trading')
+        return Redirect::to('/trading');
     }
 
     public function createSellOrder(Request $request)

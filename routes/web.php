@@ -23,7 +23,9 @@ Route::get("/market","TradingController@showMarket")->name('market');
 
 Route::get("/instant", "TradingController@showInstant")->name('instant');
 
-Route::get("/balance","TradingController@showBalance")->name('balance');
+Route::get("/balance","HomeController@showWallet")->name('balance');
+
+Route::get("/balance/{curr}","TransactionController@showUserTransaction");
 
 // Route::get("/profil","TradingController@showMarket")->name('profil');
 

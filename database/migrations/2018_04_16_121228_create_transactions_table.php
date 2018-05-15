@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTranscationsTable extends Migration
+class CreateTransacationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateTranscationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('transcations', function (Blueprint $table) {
+        Schema::create('transactions', function (Blueprint $table) {
             $table->increments('trx_id');
             $table->integer('from_user')->index();
             $table->integer('to_user')->index();
