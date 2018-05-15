@@ -16,8 +16,10 @@ class TransactionController extends Controller
     {
         //function to show user transactions
         $transactions = Transactions::where('currency',$curr)->where('from_user',Auth::user()->id)->orWhere('to_user',Auth::user()->id)->paginate(100);
+        $wallet = Wallet::where('currency',$curr)->where('user_id',Auth::user()->id)->first();
         $data['curr'] = $curr;
         $data['transactions'] = $transactions;
+        $data['wallet'] = $wallet;
         if ($curr=="IDR"){
             return view("rupiah",$data);
         }
@@ -41,11 +43,11 @@ class TransactionController extends Controller
     public function withdrawMoney(Request $request)
     {
         //function to decrease user's wallet and log transaction
-
-        $wallet = Wallet::where('user_id', Auth::user()->id)->where('currency',$request->curr)->get();
+        // dd($request);
+        $wallet = Wallet::where('user_id', Auth::user()->id)->where('currency',$request->curr)->first();
         if($request->value > $wallet->balance){
             Session::flash('message','Balance uang tidak cukup!');
-            return Redirect::to('/transpg');
+            return Redirect::to('/balance/'.$request->curr);
         }
 
         $transaction = new Transactions;
@@ -56,7 +58,7 @@ class TransactionController extends Controller
         $transaction->value = floatval($request->value);
         $transaction->save();
 
-        $wallet = Wallet::where("user_id", Auth::user()->id)->where("currency", $request->curr)->first();
+        // dd($wallet);
         $wallet->balance -= floatval($request->value);
         $wallet->save();
 
@@ -104,7 +106,7 @@ class TransactionController extends Controller
         $wallet->balance -= $request->value;
         $wallet->save();
 
-        Session::flash('message','Penarikan uang berhasil!');
+        Session::flash('message','Penarikan crypto berhasil!');
         return Redirect::to('/transpg');
     }
 

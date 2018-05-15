@@ -49,4 +49,6 @@ Route::get("/btc", function(){
 
 Route::get('/chart', 'HomeController@showCryptoCharts')->name('chart');
 
-Route::post('/balance/deposit/rupiah','TransactionController@depositMoney');
+Route::post('/balance/deposit/{curr}','TransactionController@depositMoney');
+
+Route::post('/balance/withdraw/{curr}', 'TransactionController@withdrawMoney');

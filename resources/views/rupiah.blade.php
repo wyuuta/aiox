@@ -4,7 +4,7 @@
 <div class="row">
 	<div class="col-md-12">
 		<div class="col-md-6">
-			<form method="POST" action="{{url('/balance/deposit/rupiah')}}">
+			<form method="POST" action="{{url('/balance/deposit/'.$curr)}}">
 			{{ csrf_field() }}
 			<div class="form-group">
 				<div class="col-md-12" style="padding: 20px 20px;">
@@ -51,6 +51,8 @@
 @section('wdcontent')
 <div class="row">
 	<div class="col-md-6">
+		<form method="POST" action="{{url('/balance/withdraw/'.$curr)}}">
+		{{ csrf_field() }}
 		<div class="form-group">
 			<div class="col-md-12">
 				Untuk melakukan penarikan Rupiah, lengkapi isian di bawah dengan teliti:
@@ -58,7 +60,7 @@
 		</div>
 		<div class="form-group">
 			<label class="col-md-3 no-padding no-margin">Jumlah penarikan:</label>
-			<input class="col-md-8 no-padding no-margin" type="text" name="" placeholder="Jumlah penarikan"/>
+			<input class="col-md-8 no-padding no-margin" type="text" name="value" placeholder="Jumlah penarikan"/>
 		</div>
 		<div class="form-group">
 			<label class="col-md-3 no-padding no-margin">Biaya penarikan:</label>
@@ -66,11 +68,12 @@
 		</div>
 		<div class="form-group">
 			<div class="col-md-12">
-				<button class="btn btn-success">
-					Withdraw
-				</button>
+				<input class="btn btn-success" type="submit" style="margin-left: 10px;" value="Withdraw">
+					
+				</input>
 			</div>
 		</div>	
+		</form>
 	</div>
 	<div class="col-md-6">
 		<div class="row no-padding">

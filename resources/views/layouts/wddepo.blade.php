@@ -14,12 +14,12 @@
 		<ul class="nav nav-tabs navbar-dark bg-dark" role="tablist">
 			<li class="nav-item">
 				<a data-toggle="tab" class="nav-link active" href="#deposit">
-					<h4>Deposit Rupiah</h4>
+					<h4>Deposit {{$curr}}</h4>
 				</a>
 			</li>
 			<li class="nav-item">
 				<a data-toggle="tab" class="nav-link" href="#withdraw">
-					<h4>Withdraw Rupiah</h4>
+					<h4>Withdraw {{$curr}}</h4>
 				</a>
 			</li>
 			<li class="nav-item">

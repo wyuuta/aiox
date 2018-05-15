@@ -1,7 +1,6 @@
 @extends('layouts.wddepo')
 
 @section('depocontent')
-Ini depo btc
 <div class="row">
 	<div class="col-md-6">
 		<div class="row">
@@ -13,7 +12,7 @@ Ini depo btc
 			<div class="col-md-12">
 			<div class="form-group">
 				<label class="col-md-3 no-padding no-margin">Alamat bitcoin:</label>
-				<input class="col-md-8 no-padding no-margin" type="text" name="" readonly="readonly" value="0,0005">
+				<input class="col-md-8 no-padding no-margin" type="text" name="" readonly="readonly" value="{{hash('sha256', $wallet)}}">
 			</div>
 			</div>
 		</div>
@@ -28,14 +27,14 @@ Ini depo btc
 			</div>
 		</div>
 	</div>
-	<div class="col-md-6">
+	<!-- <div class="col-md-6">
 		<div class="col-md-4">
 			Scan QR Code di samping untuk mempermudah deposit Bitcoin dari smartphone/tablet.
 		</div>
 		<div class="col-md-8">
 			Ini isinya qr code dari alamat wallet
 		</div>
-	</div>
+	</div> -->
 </div>
 @endsection
 
@@ -49,7 +48,7 @@ Ini depo btc
 		</div>
 		<div class="form-group">
 			<label class="col-md-3 no-padding no-margin">Jumlah {{$curr}}:</label>
-			<input class="col-md-8 no-padding no-margin" type="text" name="" placeholder="Jumlah penarikan"/>
+			<input class="col-md-8 no-padding no-margin" type="text" name="value" placeholder="Jumlah penarikan"/>
 		</div>
 		<div class="form-group">
 			<label class="col-md-3 no-padding no-margin">Biaya penarikan:</label>
