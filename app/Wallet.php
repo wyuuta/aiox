@@ -19,4 +19,6 @@ class Wallet extends Model
   protected $hidden = [
       
   ];
+
+  protected $primaryKey = 'wallet_id';
 }

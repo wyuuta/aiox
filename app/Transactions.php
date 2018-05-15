@@ -20,4 +20,6 @@ class Transactions extends Model
   protected $hidden = [
       
   ];
+
+  protected $primaryKey = 'trx_id';
 }

@@ -64,19 +64,17 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+        $this->create_wallet($user);
+        return $user;
     }
 
-    protected function create_wallet($user)
+    private function create_wallet($user)
     {
-        // $data = [];
-        // $data['idr'] = ["balance"=>0];
-        // $data['btc'] = ["wallet_id" => "2345sdfs312d4f43ht7", "balance"=>0];
-        // $data['eth'] = ["wallet_id" => "2345sdfs312d4f43ht7", "balance"=>0];
         $wallet = new Wallet;
         $wallet->user_id = $user->id;
         $wallet->currency = "IDR";

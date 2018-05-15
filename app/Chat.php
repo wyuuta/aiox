@@ -19,4 +19,6 @@ class Chat extends Model
   protected $hidden = [
       
   ];
+
+  protected $primaryKey = 'chat_id';
 }

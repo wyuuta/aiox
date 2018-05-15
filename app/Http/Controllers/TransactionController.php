@@ -46,15 +46,15 @@ class TransactionController extends Controller
         $transaction->to_user = Auth::user()->id;
         $transaction->currency = $request->curr;
         $transaction->type = 'WITHDRAW';
-        $transaction->value = $request->value;
+        $transaction->value = floatval($request->value);
         $transaction->save();
 
-
-        $wallet->balance -= $request->value;
+        $wallet = Wallet::where("user_id", Auth::user()->id)->where("currency", $request->curr)->first();
+        $wallet->balance -= floatval($request->value);
         $wallet->save();
 
         Session::flash('message','Penarikan uang berhasil!');
-        return Redirect::to('/transpg');
+        return Redirect::to('/balance');
     }
 
     public function depositMoney(Request $request)
@@ -65,14 +65,15 @@ class TransactionController extends Controller
         $transaction->to_user = Auth::user()->id;
         $transaction->currency = $request->curr;
         $transaction->type = 'DEPOSIT';
-        $transaction->value = $request->value;
+        $transaction->value = floatval($request->value);
         $transaction->save();
+        // dd($transaction);
 
-        $wallet = Wallet::where("user_id", Auth::user()->id)->where("currency", $request->curr)->get();
-        $wallet->balance += $request->value;
+        $wallet = Wallet::where("user_id", Auth::user()->id)->where("currency", $request->curr)->first();
+        $wallet->balance += floatval($request->value);
         $wallet->save();
 
-        return Redirect::to('/transpg');
+        return Redirect::to('/balance');
 
     }
 
