@@ -7,6 +7,7 @@ use App\Transactions;
 use App\Wallet;
 use Session;
 use Redirect;
+use Auth;
 
 class TransactionController extends Controller
 {
@@ -15,7 +16,8 @@ class TransactionController extends Controller
     {
         //function to show user transactions
         $transactions = Transactions::where('currency',$curr)->where('from_user',Auth::user()->id)->orWhere('to_user',Auth::user()->id)->paginate(100);
-        return view("trans",$curr,$transactions);
+        $data = array('var1'=>$curr, 'var2'=>$transactions);
+        return view("rupiah",$data);
     }
 
     public function openTransactionPage(){

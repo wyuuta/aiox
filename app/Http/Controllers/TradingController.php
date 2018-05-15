@@ -8,6 +8,7 @@ use App\Transactions;
 use App\Order;
 use App\OrderGroup;
 use Redirect;
+use Auth;
 
 class TradingController extends Controller
 {

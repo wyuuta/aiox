@@ -21,17 +21,21 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get("/market","TradingController@showMarket")->name('market');
 
-Route::get("/instant", "TradingController@showInstant")->name('instant');
+// Route::get("/instant", "TradingController@showInstant")->name('instant');
 
 Route::get("/balance","HomeController@showWallet")->name('balance');
 
-Route::get("/balance/{curr}","TransactionController@showUserTransaction");
+Route::get("/balance/{curr}","TransactionController@showUserTransactions");
 
 // Route::get("/profil","TradingController@showMarket")->name('profil');
 
 Route::get("/profil",function(){
 	return view('profile');
 })->name('profil');
+
+Route::get("/instant",function(){
+	return view('instant');
+})->name('instant');
 
 Route::get("/main");
 

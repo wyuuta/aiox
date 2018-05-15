@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use App\Wallet;
+use App\User;
+use Auth;
+use Redirect;
 
 class HomeController extends Controller
 {
@@ -41,5 +44,22 @@ class HomeController extends Controller
         $res = $client->request('GET', 'https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH&tsyms=IDR');
         dd(json_decode($res->getBody()));
         return view('chart');
+    }
+
+    public function showUserInfo()
+    {
+        $info = Auth::user();
+        return view('profil',$info);
+    }
+
+    public function editUser(Request $request)
+    {
+        $user = Auth::user();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->address = $request->address;
+        $user->phone = $request->phone;
+        $user->save();
+        return Redirect::to('profil');
     }
 }

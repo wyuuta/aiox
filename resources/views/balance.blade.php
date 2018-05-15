@@ -25,7 +25,7 @@
 		            <td class="name-cell">Rupiah</td>
 		            <td class="saldo-cell">Rp 0</td>
 		            <td class="aksi-cell"> 
-		                <button type="button" class="btn btn-primary" href="{{url('rupiah')}}">
+		                <button type="button" class="btn btn-primary" href="/rupiah">
 		                    Deposit/Withdraw
 		                </button>
 		            </td>
