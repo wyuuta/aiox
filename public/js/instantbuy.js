@@ -41,7 +41,7 @@ function nextPrevBuy(n) {
 
 function validateFormBuy() {
   // This function deals with validation of the form fields
-  var x, y, i, valid = true;
+  var x, y, i, valid = true, saldo, amount;
   x = document.getElementsByClassName("tabBuy");
   y = x[currentTabBuy].getElementsByTagName("input");
   // A loop that checks every input field in the current tab:
@@ -53,6 +53,14 @@ function validateFormBuy() {
       // and set the current valid status to false
       valid = false;
     }
+  }
+  saldo = document.getElementById("saldorupiah");
+  saldo = parseFloat(saldo.split(" ")[1]);
+  amount = document.getElementById("buyamount");
+  amount = parseFloat(amount);
+  if (amount>saldo){
+    valid = false;
+    amount.classList.add('invalid');
   }
   // If the valid status is true, mark the step as finished and valid:
   if (valid) {

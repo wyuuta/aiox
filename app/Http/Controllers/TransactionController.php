@@ -18,7 +18,13 @@ class TransactionController extends Controller
         $transactions = Transactions::where('currency',$curr)->where('from_user',Auth::user()->id)->orWhere('to_user',Auth::user()->id)->paginate(100);
         $data['curr'] = $curr;
         $data['transactions'] = $transactions;
-        return view("rupiah",$data);
+        if ($curr=="IDR"){
+            return view("rupiah",$data);
+        }
+        else{
+            return view("crypto", $data);
+        }
+        
     }
 
     public function openTransactionPage(){
@@ -55,7 +61,7 @@ class TransactionController extends Controller
         $wallet->save();
 
         Session::flash('message','Penarikan uang berhasil!');
-        return Redirect::to('/balance');
+        return Redirect::to('/balance');    
     }
 
     public function depositMoney(Request $request)

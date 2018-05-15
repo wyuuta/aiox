@@ -55,23 +55,23 @@
                         <div class="col-7">
                         </div>
                         <div class="col-5">
-                            Saldo Ripple
+                            Saldo Bitcoin
                         </div>
                     </div> 
                     <div class="row">
                         <div class="col-7 bg-warning">
                             <div class="row">
                             <div class="col-1">
-                                <img width="30" height="30" class="logo-sprite" alt="Bitcoin" src="{{URL::asset('/image/icons/Ripple.png')}}"/>
+                                <img width="30" height="30" class="logo-sprite" alt="Bitcoin" src="{{URL::asset('/image/icons/BTC.png')}}"/>
                             </div>
                                 
                             <div class="col-6">
-                                <h5>Ripple</h5> 
+                                <h5>Bitcoin</h5> 
                             </div>
                             </div>
                         </div>
                         <div class="col-5" >
-                            <h4 >5146 XRP</h4>
+                            <h4 >0.0 btc</h4>
                         </div>
                     </div>
                 </div> 
@@ -111,7 +111,7 @@
     <section class="row justify-content-center">
         <div class="col-5">
             <form id="regFormBuy" action="/action_page.php" style="width: auto">
-              <h1>Beli Ripple:</h1>
+              <h1>Beli Bitcoin:</h1>
               <!-- One "tab" for each step in the form: -->
               <div class="tabBuy">Input:
                 <div class="row " style="margin-bottom: 25px;">
@@ -119,7 +119,7 @@
                         <h5> Saldo Rupiah:</h5>
                     </div>
                     <div class="col-5">
-                        <h5> Rp 0 </h5>
+                        <h5 id="saldorupiah">Rp 0</h5>
                     </div>
                 </div>
                 <div class="row" style="margin-bottom: 25px;">
@@ -127,12 +127,12 @@
                         <h5> Jumlah rupiah</h5>
                     </div>
                     <div class="col-5">
-                        <input style="float: right; max-width: 250px" placeholder="Jumlah Rupiah..." oninput="this.className = ''" name="inputBuy">
+                        <input id="buyamount" style="float: right; max-width: 250px" placeholder="Jumlah Rupiah..." oninput="this.className = ''" name="inputBuy">
                     </div>
                 </div>
                 <div class="row" style="margin-bottom: 25px;">
                     <div class="col-5">
-                        <h5> Harga 1 Ripple:</h5>
+                        <h5> Harga 1 Bitcoin:</h5>
                     </div>
                     <div class="col-5">
                         <h5> Harga mengikuti harga pasar saat ini.</h5>
@@ -156,7 +156,7 @@
                         <h5> Estimasi harga :</h5>
                     </div>
                     <div class="col-5">
-                        <h5> 5145 XRP</h5>
+                        <h5> 5145 BTC</h5>
                     </div>
                 </div>
                 <div class="row" style="margin-bottom: 25px;">
@@ -169,7 +169,7 @@
                 </div>
                 <div class="row" style="margin-bottom: 25px;">
                     <div class="col-5">
-                        <h5> Estimasi ripple diterima :</h5>
+                        <h5> Estimasi bitcoin diterima :</h5>
                     </div>
                     <div class="col-5">
                         <h5> 514,46</h5>
@@ -191,20 +191,20 @@
         </div>
         <div class="col-5">
             <form id="regFormSell" action="/action_page.php" style="width: auto">
-              <h1>Jual Ripple:</h1>
+              <h1>Jual Bitcoin:</h1>
               <!-- One "tab" for each step in the form: -->
               <div class="tabSell">Input:
                 <div class="row" style="margin-bottom: 25px;">
                     <div class="col-5">
-                        <h5> Saldo Ripple:</h5>
+                        <h5> Saldo Bitcoin:</h5>
                     </div>
                     <div class="col-5">
-                        <h5> 5148 XRP </h5>
+                        <h5> 0.0 BTC </h5>
                     </div>
                 </div>
                 <div class="row" style="margin-bottom: 25px;">
                     <div class="col-5">
-                        <h5> Jumlah ripple:</h5>
+                        <h5> Jumlah Bitcoin:</h5>
                     </div>
                     <div class="col-5">
                         <input style="float: right; max-width: 250px" placeholder="Jumlah Ripple..." oninput="this.className = ''" name="inputSell">
@@ -213,7 +213,7 @@
                 </div>
                 <div class="row" style="margin-bottom: 25px;">
                     <div class="col-5">
-                        <h5> Harga 1 Ripple:</h5>
+                        <h5> Harga 1 Bitcoin:</h5>
                     </div>
                     <div class="col-5">
                         <h5> Harga mengikuti harga pasar saat ini.</h5>
@@ -226,7 +226,7 @@
                 </div>
                 <div class="row" style="margin-bottom: 25px;">
                     <div class="col-5">
-                        <h5> Jumlah ripple :</h5>
+                        <h5> Jumlah bitcoin :</h5>
                     </div>
                     <div class="col-5">
                         <h5> 5145</h5>

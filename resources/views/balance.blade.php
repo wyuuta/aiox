@@ -20,36 +20,18 @@
 	            </tr>
 	      	</thead>
 	       	<tbody>
-	            <tr>
-		            <td class="kode-cell">RP</td>
-		            <td class="name-cell">Rupiah</td>
-		            <td class="saldo-cell">Rp 0</td>
-		            <td class="aksi-cell"> 
-		                <a type="button" class="btn btn-primary" href="{{url('/balance/rupiah')}}">
-		                    Deposit/Withdraw
-		                </a>
-		            </td>
-	            </tr>
-	            <tr>
-	                <td class="kode-cell">BTC</td>
-	                <td class="name-cell">Bitcoin</td>
-	                <td class="saldo-cell">0 BTC</td>
-	                <td class="aksi-cell"> 
-	                    <a type="button" class="btn btn-primary" href="{{url('/balance/btc')}}">
-	                        Deposit/Withdraw
-	                    </a>
-	                </td>
-	            </tr>
-	            <tr>
-	                <td class="kode-cell">ETH</td>
-	                <td class="name-cell">Etherium</td>
-	                <td class="saldo-cell">0 ETH</td>
-	                <td class="aksi-cell">
-	                    <a type="button" class="btn btn-primary" href="{{url('/balance/eth')}}">
-	                        Deposit/Withdraw
-	                    </a>
-	                </td>
-	            </tr>
+	       		@foreach($wallet as $w)
+	       			<tr>
+			            <td class="kode-cell">{{$w->currency}}</td>
+			            <td class="name-cell">{{$w->currency_name}}</td>
+			            <td class="saldo-cell">{{$w->currency." ".$w->balance}}</td>
+			            <td class="aksi-cell"> 
+			                <a type="button" class="btn btn-primary" href="{{url('/balance/'.$w->currency)}}">
+			                    Deposit/Withdraw
+			                </a>
+			            </td>
+		            </tr>
+	       		@endforeach   
 	        </tbody>
 	    </table>
 	</div>

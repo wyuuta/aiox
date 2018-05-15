@@ -111,17 +111,31 @@
 						Tujuan
 					</th>
 					<th style="width: 20%;">
-						TX
-					</th>
-					<th style="width: 20%;">
 						Status
 					</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td colspan="6"><center><strong>-KOSONG-</strong></center></td>
-				</tr>
+				@if(count($transactions) == 0)
+					<tr>
+						<td colspan="5"><center><strong>-KOSONG-</strong></center></td>
+					</tr>
+				@else
+					@foreach($transactions as $t)
+						<tr>
+							<td>{{$t->updated_at}}</td>
+							<td>{{$t->type}}</td>
+							<td>{{$t->value}}</td>
+							@if($t->type!="DEPOSIT")
+								<td>{{$t->to_user}}</td>
+							@else
+								<td>Self</td>
+							@endif
+							<td>Success</td>
+						</tr>
+					@endforeach
+				@endif
+				
 			</tbody>
 		</table>
 	</div>
