@@ -25,9 +25,9 @@
 		            <td class="name-cell">Rupiah</td>
 		            <td class="saldo-cell">Rp 0</td>
 		            <td class="aksi-cell"> 
-		                <button type="button" class="btn btn-primary" href="/rupiah">
+		                <a type="button" class="btn btn-primary" href="{{url('/balance/rupiah')}}">
 		                    Deposit/Withdraw
-		                </button>
+		                </a>
 		            </td>
 	            </tr>
 	            <tr>
@@ -35,9 +35,9 @@
 	                <td class="name-cell">Bitcoin</td>
 	                <td class="saldo-cell">0 BTC</td>
 	                <td class="aksi-cell"> 
-	                    <button type="button" class="btn btn-primary" href="{{url('bitcoin')}}">
+	                    <a type="button" class="btn btn-primary" href="{{url('/balance/btc')}}">
 	                        Deposit/Withdraw
-	                    </button>
+	                    </a>
 	                </td>
 	            </tr>
 	            <tr>
@@ -45,9 +45,9 @@
 	                <td class="name-cell">Etherium</td>
 	                <td class="saldo-cell">0 ETH</td>
 	                <td class="aksi-cell">
-	                    <button type="button" class="btn btn-primary" href="{{url('etherium')}}">
+	                    <a type="button" class="btn btn-primary" href="{{url('/balance/eth')}}">
 	                        Deposit/Withdraw
-	                    </button>
+	                    </a>
 	                </td>
 	            </tr>
 	        </tbody>

@@ -4,6 +4,8 @@
 <div class="row">
 	<div class="col-md-12">
 		<div class="col-md-6">
+			<form method="POST" action="{{url('/balance/deposit/rupiah')}}">
+			{{ csrf_field() }}
 			<div class="form-group">
 				<div class="col-md-12" style="padding: 20px 20px;">
 					Kami menerima beberapa metode pembayaran untuk memudahkan para member dalam melakukan deposit Rupiah ke akun Indodax. Silakan masukan nominal deposit yang Anda inginkan dan pilih sumber dana/metode pembayaran yang paling mudah untuk Anda.
@@ -11,7 +13,7 @@
 			</div>
 			<div class="form-group">
 				<label class="col-md-3 no-padding no-margin">Jumlah deposit:</label>
-				<input class="col-md-8 no-padding no-margin" type="text" name="" placeholder="Jumlah deposit"/>
+				<input class="col-md-8 no-padding no-margin" type="text" name="value" placeholder="Jumlah deposit"/>
 			</div>
 			<div class="form-group">
 				<div class="row" style="padding-left: 20px;">
@@ -32,8 +34,15 @@
 			</div>
 			<div class="form-group">
 				<label class="col-md-3 no-padding no-margin">Nomer rekening anda:</label>
-				<input class="col-md-8 no-padding no-margin" type="text" name=""/>
+				<input class="col-md-8 no-padding no-margin" type="text" name="nomerRekening"/>
 			</div>
+			<div class="form-group">
+				<input class="btn btn-success col-md-3" type="submit" style="margin-left: 10px;" value="submit">
+					
+				</input>
+				<input type="hidden" name="curr" value="IDR">
+			</div>
+			</form>
 		</div>
 	</div>
 </div>

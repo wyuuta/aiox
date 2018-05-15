@@ -68,7 +68,7 @@ class TransactionController extends Controller
         $transaction->value = $request->value;
         $transaction->save();
 
-
+        $wallet = Wallet::where("user_id", Auth::user()->id)->where("currency", $request->curr)->get();
         $wallet->balance += $request->value;
         $wallet->save();
 
