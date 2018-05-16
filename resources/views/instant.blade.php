@@ -20,27 +20,17 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>
-                        <img width="16" height="16" class="logo-sprite" alt="Bitcoin" src="{{URL::asset('/image/icons/Ripple.png')}}"/>
-                        <span>Ripple</span>
-                    </td>
-                    <td>5146</td>
-                </tr>
-                <tr>
-                    <td>
-                        <img width="16" height="16" class="logo-sprite" alt="Bitcoin" src="{{URL::asset('/image/icons/ETC.png')}}"/>
-                        <span>ETC</span>
-                    </td>
-                    <td>14.2</td>
-                </tr>
-                <tr>
-                    <td>
-                        <img width="16" height="16" class="logo-sprite" alt="Bitcoin" src="{{URL::asset('/image/icons/BCH.png')}}"/>
-                        <span>BCH</span>
-                    </td>
-                    <td>1.23</td>
-                </tr>
+                @foreach($wallet as $w)
+                    <tr>
+                        <td>
+                            <img width="16" height="16" class="logo-sprite" alt="Bitcoin" src="{{URL::asset('/image/icons/'.$w->currency.'.png')}}"/>
+                            <span>{{$w->currency_name}}</span>
+                        </td>
+                        <td>
+                            {{$w->balance}}
+                        </td>
+                    </tr>
+                @endforeach
             </tbody>
         </table>
         </div>
@@ -71,7 +61,7 @@
                             </div>
                         </div>
                         <div class="col-5" >
-                            <h4 >0.0 btc</h4>
+                            <h4 >0.0 BTC</h4>
                         </div>
                     </div>
                 </div> 
@@ -110,9 +100,9 @@
     <!-- instant trade -->
     <section class="row justify-content-center">
         <div class="col-5">
-            <form id="regFormBuy" action="/action_page.php" style="width: auto">
+            <form id="regFormBuy" method="POST" action="{{url('/instant/buy')}}" style="width: auto">
+              {{ csrf_field() }}
               <h1>Beli Bitcoin:</h1>
-              <!-- One "tab" for each step in the form: -->
               <div class="tabBuy">Input:
                 <div class="row " style="margin-bottom: 25px;">
                     <div class="col-5">
@@ -127,7 +117,7 @@
                         <h5> Jumlah rupiah</h5>
                     </div>
                     <div class="col-5">
-                        <input id="buyamount" style="float: right; max-width: 250px" placeholder="Jumlah Rupiah..." oninput="this.className = ''" name="inputBuy">
+                        <input id="buyamount" style="float: right; max-width: 250px" placeholder="Jumlah Rupiah..." oninput="this.className = ''" name="value">
                     </div>
                 </div>
                 <div class="row" style="margin-bottom: 25px;">
@@ -182,15 +172,16 @@
                   <button type="button" id="nextBtnBuy" onclick="nextPrevBuy(1)">Next</button>
                 </div>
               </div>
-              <!-- Circles which indicates the steps of the form: -->
               <div style="text-align:center;margin-top:40px;">
                 <span class="stepBuy"></span>
                 <span class="stepBuy"></span>
               </div>
+              <input type="hidden" name="curr" value="BTC">
             </form>
         </div>
         <div class="col-5">
-            <form id="regFormSell" action="/action_page.php" style="width: auto">
+            <form id="regFormSell" method="POST" action="{{'/instant/sell'}}" style="width: auto">
+              {{ csrf_field() }}
               <h1>Jual Bitcoin:</h1>
               <!-- One "tab" for each step in the form: -->
               <div class="tabSell">Input:
@@ -268,6 +259,7 @@
                 <span class="stepSell"></span>
                 <span class="stepSell"></span>
               </div>
+              <input type="hidden" name="curr" value="BTC">
             </form>
         </div>
     </section>

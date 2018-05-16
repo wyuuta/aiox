@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use App\Transactions;
 use App\Wallet;
@@ -90,8 +90,9 @@ class TransactionController extends Controller
         $wallet_from = Wallet::where('user_id', Auth::user()->id)->where('currency',"IDR")->first();
         $client = new Client();
         $res = $client->request('GET', 'https://min-api.cryptocompare.com/data/price?fsym='.$request->curr.'&tsyms=IDR');
-        $arr = json_decode($res->getBody());
-        $price = floatval($arr[$request->curr]);
+        $arr = json_decode($res->getBody(), true);
+        // dd($arr);
+        $price = floatval($arr["IDR"]);
         
         if($request->value*$price > $wallet_from->balance){
             Session::flash('message','Balance uang tidak cukup!');

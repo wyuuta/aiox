@@ -8,7 +8,7 @@
         </div>
     </section>
     <section class="row" style="background: url('{{URL::asset('/image/index_section_2_img.jpg')}}')no-repeat center center /cover; height: 600px; opacity: 50%; filter: alpha(opacity=50);">
-        <div class="col-6 no-padding" > 
+        <!-- <div class="col-6 no-padding" > 
             <h5 class="text-dark" style="margin-left: 250px; margin-top:100px; margin-bottom:20px;">Top gainer</h5>
             <table class="table table-dark table-hover">
                 <thead>
@@ -48,8 +48,8 @@
                     </tr>
                 </tbody>
             </table>
-        </div>
-        <div class="col-6 no-padding" > 
+        </div> -->
+        <!-- <div class="col-6 no-padding" > 
             <h5 class="text-dark" style="margin-left: 250px; margin-top:100px; margin-bottom:20px; color:black;">Top losser</h5>
             <table class="table table-dark table-hover">
                 <thead>
@@ -87,6 +87,42 @@
                         <td>0.189</td>
                         <td>0.2</td>
                     </tr>
+                </tbody>
+            </table>
+        </div> -->
+        <div class="col-lg-12">
+            <table class="table table-dark table-hover" style="margin-top: 50px;">
+                <thead>
+                    <tr>
+                        <th>Market</th>
+                        <th>Last Price</th>
+                        <th>Change</th>
+                        <th>Volume 24H </th>
+                        <th>Beli </th>
+                        <th>Jual </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($prices as $price)
+                        <tr>
+                            <td>{{$price["IDR"]["FROMSYMBOL"]."/".$price["IDR"]["TOSYMBOL"]}}</td>
+                            <td>
+                                {{number_format($price["IDR"]["PRICE"],2,",","")}}
+                            </td>
+                            <td>
+                                {{number_format($price["IDR"]["CHANGEPCT24HOUR"],2,",","")}}
+                            </td>
+                            <td>
+                                {{number_format($price["IDR"]["TOTALVOLUME24H"],2,",","")}}
+                            </td>
+                            <td>
+                                {{number_format(floatval($price["IDR"]["PRICE"])*0.99,2,",","")}}
+                            </td>
+                            <td>
+                                {{number_format(floatval($price["IDR"]["PRICE"]*1.01),2,",","")}}
+                            </td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>

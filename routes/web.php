@@ -11,9 +11,11 @@
 |
 */
 use Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory;
-Route::get('/', function () {
-    return view('index');
-});
+// Route::get('/', function () {
+//     return view('index');
+// });
+
+Route::get('/', 'FrontController@showPrice');
 
 Auth::routes();
 
@@ -27,15 +29,15 @@ Route::get("/balance","HomeController@showWallet")->name('balance');
 
 Route::get("/balance/{curr}","TransactionController@showUserTransactions");
 
+Route::post("/instant/buy","TransactionController@instantBuy");
+
 // Route::get("/profil","TradingController@showMarket")->name('profil');
 
 Route::get("/profil",function(){
 	return view('profile');
 })->name('profil');
 
-Route::get("/instant",function(){
-	return view('instant');
-})->name('instant');
+Route::get("/instant",'HomeController@showInstant')->name('instant');
 
 Route::get("/main");
 

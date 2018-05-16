@@ -54,14 +54,14 @@ function validateFormBuy() {
       valid = false;
     }
   }
-  saldo = document.getElementById("saldorupiah");
-  saldo = parseFloat(saldo.split(" ")[1]);
-  amount = document.getElementById("buyamount");
-  amount = parseFloat(amount);
-  if (amount>saldo){
-    valid = false;
-    amount.classList.add('invalid');
-  }
+  // saldo = document.getElementById("saldorupiah");
+  // saldo = parseFloat(saldo.split(" ")[1]);
+  // amount = document.getElementById("buyamount");
+  // amount = parseFloat(amount);
+  // if (amount>saldo){
+  //   valid = false;
+  //   amount.classList.add('invalid');
+  // }
   // If the valid status is true, mark the step as finished and valid:
   if (valid) {
     document.getElementsByClassName("stepBuy")[currentTabBuy].className += " finish";

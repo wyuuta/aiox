@@ -28,7 +28,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        echo "<script>setTimeout(function(){ window.location.href = 'http://aiox.test/instant'; }, 5000);</script>";
+        echo "<script>setTimeout(function(){ window.location.href = '/instant'; }, 2000);</script>";
         return view("home");
     }
 
@@ -40,7 +40,24 @@ class HomeController extends Controller
         return view('balance',$data);
     }
 
-    public function showCryptoCharts($curr)
+    public function showInstant()
+    {
+        $client = new Client();
+        $wallet = Wallet::where('user_id',Auth::user()->id)->get();
+        $res = $client->request('GET', 'https://min-api.cryptocompare.com/data/pricemultifull?fsyms=BTC&tsyms=IDR');
+        $prices = json_decode($res->getBody(), true);
+        // dd($prices["RAW"]["BTC"]["IDR"]["PRICE"]);
+        $rupiah = Wallet::where('user_id',Auth::user()->id)->where('currency',"IDR")->get();
+        $btc = Wallet::where('user_id',Auth::user()->id)->where('currency',"BTC")->get();
+        // dd($rupiah);
+        $data['wallet'] = $wallet;
+        $data['price'] = $prices["RAW"]["BTC"]["IDR"]["PRICE"];
+        $data['rupiah'] = $rupiah;
+        $data['btc'] = $btc;
+        return view('instant',$data);
+    }
+
+    public function showCryptoCharts()
     {
         $client = new Client();
         $res = $client->request('GET', 'https://min-api.cryptocompare.com/data/histohour?fsym='.$curr.'&tsym=IDR&limit=60&aggregate=3&e=CCCAGG');
