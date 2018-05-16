@@ -27,7 +27,13 @@
                             <span>{{$w->currency_name}}</span>
                         </td>
                         <td>
-                            {{$w->balance}}
+                            @if($w->currency_name=="IDR")
+                                {{$w->balance}}
+                            @else
+                                {{
+                                  number_format($w->balance,6,".","")
+                                }}
+                            @endif
                         </td>
                     </tr>
                 @endforeach
@@ -61,7 +67,7 @@
                             </div>
                         </div>
                         <div class="col-5" >
-                            <h4 >0.0 BTC</h4>
+                            <h4 >@foreach($btc as $b) {{$b->balance}} @endforeach BTC</h4>
                         </div>
                     </div>
                 </div> 
@@ -89,7 +95,7 @@
                             </div>
                         </div>
                         <div class="col-5" >
-                            <h4 >RP 0</h4>
+                            <h4 >RP @foreach($rupiah as $r) {{$r->balance}} @endforeach</h4>
                         </div>
                     </div>
                 </div> 
@@ -109,7 +115,7 @@
                         <h5> Saldo Rupiah:</h5>
                     </div>
                     <div class="col-5">
-                        <h5 id="saldorupiah">Rp 0</h5>
+                        <h5 id="saldorupiah">Rp @foreach($rupiah as $r) {{$r->balance}} @endforeach</h5>
                     </div>
                 </div>
                 <div class="row" style="margin-bottom: 25px;">
@@ -138,31 +144,31 @@
                         <h5> Jumlah rupiah :</h5>
                     </div>
                     <div class="col-5">
-                        <h5> 4500000</h5>
+                        <h5 id="jumlahbeli"> </h5>
                     </div>
                 </div>
-                <div class="row" style="margin-bottom: 25px;">
+                <!-- <div class="row" style="margin-bottom: 25px;">
                     <div class="col-5">
                         <h5> Estimasi harga :</h5>
                     </div>
                     <div class="col-5">
-                        <h5> 5145 BTC</h5>
+                        <h5 id="estimasihargabeli"> </h5>
                     </div>
-                </div>
+                </div> -->
                 <div class="row" style="margin-bottom: 25px;">
                     <div class="col-5">
                         <h5> Biaya :</h5>
                     </div>
                     <div class="col-5">
-                        <h5> 526</h5>
+                        <h5 id="biayabeli"> </h5>
                     </div>
                 </div>
                 <div class="row" style="margin-bottom: 25px;">
                     <div class="col-5">
-                        <h5> Estimasi bitcoin diterima :</h5>
+                        <h5> Total biaya :</h5>
                     </div>
                     <div class="col-5">
-                        <h5> 514,46</h5>
+                        <h5 id="totalbeli"> </h5>
                     </div>
                 </div>
               </div>
@@ -190,7 +196,7 @@
                         <h5> Saldo Bitcoin:</h5>
                     </div>
                     <div class="col-5">
-                        <h5> 0.0 BTC </h5>
+                        <h5> @foreach($btc as $b) {{$b->balance}} @endforeach BTC </h5>
                     </div>
                 </div>
                 <div class="row" style="margin-bottom: 25px;">
@@ -198,7 +204,7 @@
                         <h5> Jumlah Bitcoin:</h5>
                     </div>
                     <div class="col-5">
-                        <input style="float: right; max-width: 250px" placeholder="Jumlah Ripple..." oninput="this.className = ''" name="inputSell">
+                        <input id="sellamount" style="float: right; max-width: 250px" placeholder="Jumlah Bitcoin..." oninput="this.className = ''" name="value">
 
                     </div>
                 </div>
@@ -220,31 +226,31 @@
                         <h5> Jumlah bitcoin :</h5>
                     </div>
                     <div class="col-5">
-                        <h5> 5145</h5>
+                        <h5 id="jumlahjual"> </h5>
                     </div>
                 </div>
-                <div class="row" style="margin-bottom: 25px;">
+                <!-- <div class="row" style="margin-bottom: 25px;">
                     <div class="col-5">
                         <h5> Estimasi harga :</h5>
                     </div>
                     <div class="col-5">
-                        <h5> RP 450000</h5>
+                        <h5 id="estimasihargajual"> RP </h5>
                     </div>
-                </div>
+                </div> -->
                 <div class="row" style="margin-bottom: 25px;">
                     <div class="col-5">
                         <h5> Biaya :</h5>
                     </div>
                     <div class="col-5">
-                        <h5> 5000</h5>
+                        <h5 id="biayajual"></h5>
                     </div>
                 </div>
                 <div class="row" style="margin-bottom: 25px;">
                     <div class="col-5">
-                        <h5> Estimasi rupiah diterima :</h5>
+                        <h5> Total biaya :</h5>
                     </div>
                     <div class="col-5">
-                        <h5> 445000</h5>
+                        <h5 id="totaljual"> </h5>
                     </div>
                 </div>
               </div>

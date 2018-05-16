@@ -104,8 +104,8 @@ class TransactionController extends Controller
         $transaction->from_user = Auth::user()->id;
         $transaction->to_user = Auth::user()->id;
         $transaction->currency = $request->curr;
-        $transaction->type = 'BUY_'.$request->curr*$price;
-        $transaction->value = floatval($request->value);
+        $transaction->type = 'BUY_'.$request->curr;
+        $transaction->value = floatval($request->value)*$price;
         $transaction->save();
 
         $transaction = new Transactions;
@@ -113,7 +113,7 @@ class TransactionController extends Controller
         $transaction->to_user = Auth::user()->id;
         $transaction->currency = "IDR";
         $transaction->type = 'USE_BUY_'.$request->curr;
-        $transaction->value = floatval($request->value*$price);
+        $transaction->value = floatval($request->value);
         $transaction->save();
 
         $wallet_from->balance -= floatval($request->value);
@@ -133,14 +133,14 @@ class TransactionController extends Controller
         $wallet_to = Wallet::where('user_id', Auth::user()->id)->where('currency',"IDR")->first();
         $client = new Client();
         $res = $client->request('GET', 'https://min-api.cryptocompare.com/data/price?fsym='.$request->curr.'&tsyms=IDR');
-        $arr = json_decode($res->getBody());
-        $price = floatval($arr[$request->curr]);
+        $arr = json_decode($res->getBody(), true);
+        $price = floatval($arr["IDR"]);
+
         
-        if(floatval($request->value)*$price > $wallet_from->balance){
+        if(floatval($request->value) > $wallet_from->balance){
             Session::flash('message','Balance uang tidak cukup!');
             return redirect('/instant');
         }
-
 
         $transaction = new Transactions;
         $transaction->from_user = Auth::user()->id;
@@ -155,14 +155,14 @@ class TransactionController extends Controller
         $transaction->to_user = Auth::user()->id;
         $transaction->currency = "IDR";
         $transaction->type = 'GET_SELL_'.$request->curr;
-        $transaction->value = floatval($request->value*$price);
+        $transaction->value = floatval($request->value)*$price;
         $transaction->save();
 
-        $wallet_from->balance += floatval($request->value*$price);
-        $wallet_from->save();
-
-        $wallet_to->balance -= floatval($request->value);
+        $wallet_to->balance += floatval($request->value)*$price;
         $wallet_to->save();
+
+        $wallet_from->balance -= floatval($request->value);
+        $wallet_from->save();
 
         Session::flash('message','Penarikan uang berhasil!');
         return redirect('/instant');

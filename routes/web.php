@@ -31,6 +31,8 @@ Route::get("/balance/{curr}","TransactionController@showUserTransactions");
 
 Route::post("/instant/buy","TransactionController@instantBuy");
 
+Route::post("/instant/sell","TransactionController@instantSell");
+
 // Route::get("/profil","TradingController@showMarket")->name('profil');
 
 Route::get("/profil",function(){

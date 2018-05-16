@@ -29,6 +29,15 @@ function nextPrevSell(n) {
   x[currentTabSell].style.display = "none";
   // Increase or decrease the current tab by 1:
   currentTabSell = currentTabSell + n;
+
+  var jumlah = document.getElementById("jumlahjual");
+  var biaya = document.getElementById("biayajual");
+  var total = document.getElementById("totaljual");
+  var sellamount = document.getElementById("sellamount").value;
+  jumlah.innerHTML = "Rp " + sellamount;
+  biaya.innerHTML = "Rp " + sellamount * 0.03;
+  total.innerHTML = "Rp " + (parseFloat(sellamount) + parseFloat(sellamount * 0.03));
+
   // if you have reached the end of the form...
   if (currentTabSell >= x.length) {
     // ... the form gets submitted:

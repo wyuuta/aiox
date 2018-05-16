@@ -29,6 +29,13 @@ function nextPrevBuy(n) {
   x[currentTabBuy].style.display = "none";
   // Increase or decrease the current tab by 1:
   currentTabBuy = currentTabBuy + n;
+  var jumlah = document.getElementById("jumlahbeli");
+  var biaya = document.getElementById("biayabeli");
+  var total = document.getElementById("totalbeli");
+  var buyamount = document.getElementById("buyamount").value;
+  jumlah.innerHTML = "Rp " + buyamount;
+  biaya.innerHTML = "Rp " + buyamount * 0.03;
+  total.innerHTML = "Rp " + (parseFloat(buyamount) + parseFloat(buyamount * 0.03));
   // if you have reached the end of the form...
   if (currentTabBuy >= x.length) {
     // ... the form gets submitted:
@@ -54,14 +61,6 @@ function validateFormBuy() {
       valid = false;
     }
   }
-  // saldo = document.getElementById("saldorupiah");
-  // saldo = parseFloat(saldo.split(" ")[1]);
-  // amount = document.getElementById("buyamount");
-  // amount = parseFloat(amount);
-  // if (amount>saldo){
-  //   valid = false;
-  //   amount.classList.add('invalid');
-  // }
   // If the valid status is true, mark the step as finished and valid:
   if (valid) {
     document.getElementsByClassName("stepBuy")[currentTabBuy].className += " finish";
