@@ -75,6 +75,7 @@ class RegisterController extends Controller
 
     private function create_wallet($user)
     {
+        //create rupiah wallet
         $wallet = new Wallet;
         $wallet->user_id = $user->id;
         $wallet->currency = "IDR";
@@ -82,6 +83,7 @@ class RegisterController extends Controller
         $wallet->balance = 0;
         $wallet->save();
 
+        //create bitcoin wallet
         $wallet = new Wallet;
         $wallet->user_id = $user->id;
         $wallet->currency = "BTC";
@@ -89,11 +91,77 @@ class RegisterController extends Controller
         $wallet->balance = 0;
         $wallet->save();
 
+        //create ethereum wallet
         $wallet = new Wallet;
         $wallet->user_id = $user->id;
         $wallet->currency = "ETH";
-        $wallet->currency_name = "Etherium";
+        $wallet->currency_name = "Ethereum";
         $wallet->balance = 0;
         $wallet->save();
+
+        //create bitcash wallet
+        $wallet = new Wallet;
+        $wallet->user_id = $user->id;
+        $wallet->currency = "BCH";
+        $wallet->currency_name = "Bitcash";
+        $wallet->balance = 0;
+        $wallet->save();
+
+        //create ripple wallet
+        $wallet = new Wallet;
+        $wallet->user_id = $user->id;
+        $wallet->currency = "XRP";
+        $wallet->currency_name = "Ripple";
+        $wallet->balance = 0;
+        $wallet->save();
+
+        //create litecoin wallet
+        $wallet = new Wallet;
+        $wallet->user_id = $user->id;
+        $wallet->currency = "LTC";
+        $wallet->currency_name = "Litecoin";
+        $wallet->balance = 0;
+        $wallet->save();
+
+        //create ethereum classic wallet
+        $wallet = new Wallet;
+        $wallet->user_id = $user->id;
+        $wallet->currency = "ETC";
+        $wallet->currency_name = "Etherium Classic";
+        $wallet->balance = 0;
+        $wallet->save();
+
+        //create stellar wallet
+        $wallet = new Wallet;
+        $wallet->user_id = $user->id;
+        $wallet->currency = "XLM";
+        $wallet->currency_name = "Stellar";
+        $wallet->balance = 0;
+        $wallet->save();
+
+        //create neo wallet
+        $wallet = new Wallet;
+        $wallet->user_id = $user->id;
+        $wallet->currency = "NEO";
+        $wallet->currency_name = "NEO";
+        $wallet->balance = 0;
+        $wallet->save();
+
+        //create nem wallet
+        $wallet = new Wallet;
+        $wallet->user_id = $user->id;
+        $wallet->currency = "XEM";
+        $wallet->currency_name = "NEM";
+        $wallet->balance = 0;
+        $wallet->save();
+
+        //create verge wallet
+        $wallet = new Wallet;
+        $wallet->user_id = $user->id;
+        $wallet->currency = "XVG";
+        $wallet->currency_name = "Verge";
+        $wallet->balance = 0;
+        $wallet->save();
+
     }
 }

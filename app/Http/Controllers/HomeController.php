@@ -40,12 +40,13 @@ class HomeController extends Controller
         return view('balance',$data);
     }
 
-    public function showCryptoCharts()
+    public function showCryptoCharts($curr)
     {
         $client = new Client();
-        $res = $client->request('GET', 'https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH&tsyms=IDR');
-        dd(json_decode($res->getBody()));
-        return view('chart');
+        $res = $client->request('GET', 'https://min-api.cryptocompare.com/data/histohour?fsym='.$curr.'&tsym=IDR&limit=60&aggregate=3&e=CCCAGG');
+        $histohour = json_decode($res->getBody());
+        $data['histohour'] = $histohour;
+        return view('market',$data);
     }
 
     public function showUserInfo()
