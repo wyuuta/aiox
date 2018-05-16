@@ -81,7 +81,7 @@
                         <div class="col-7 bg-success">
                             <div class="row">
                             <div class="col-1">
-                                <img width="30" height="30" class="logo-sprite" alt="Bitcoin" src="{{URL::asset('/image/icons/IDR.png')}}"/>
+                                <img width="30" height="30" class="logo-sprite" alt="Bitcoin" src="{{URL::asset('/image/icons/Rupiah.png')}}"/>
                             </div>
                             <div class="col-6">
                                 <h5>Rupiah</h5> 
@@ -100,16 +100,16 @@
     <!-- instant trade -->
     <section class="row justify-content-center">
         <div class="col-5">
-            <form id="regFormBuy" action="/action_page.php" style="width: auto">
+            <form id="regFormBuy" method="POST" action="{{url('/instant/buy')}}" style="width: auto">
+              {{ csrf_field() }}
               <h1>Beli Bitcoin:</h1>
-              <!-- One "tab" for each step in the form: -->
               <div class="tabBuy">Input:
                 <div class="row " style="margin-bottom: 25px;">
                     <div class="col-5">
                         <h5> Saldo Rupiah:</h5>
                     </div>
                     <div class="col-5">
-                        <h5 id="saldobeli">Rp 0</h5>
+                        <h5 id="saldorupiah">Rp 0</h5>
                     </div>
                 </div>
                 <div class="row" style="margin-bottom: 25px;">
@@ -117,7 +117,7 @@
                         <h5> Jumlah rupiah</h5>
                     </div>
                     <div class="col-5">
-                        <input id="buyamount" style="float: right; max-width: 250px" placeholder="Jumlah Rupiah..." oninput="this.className = ''" name="inputBuy">
+                        <input id="buyamount" style="float: right; max-width: 250px" placeholder="Jumlah Rupiah..." oninput="this.className = ''" name="value">
                     </div>
                 </div>
                 <div class="row" style="margin-bottom: 25px;">
@@ -172,15 +172,16 @@
                   <button type="button" id="nextBtnBuy" onclick="nextPrevBuy(1)">Next</button>
                 </div>
               </div>
-              <!-- Circles which indicates the steps of the form: -->
               <div style="text-align:center;margin-top:40px;">
                 <span class="stepBuy"></span>
                 <span class="stepBuy"></span>
               </div>
+              <input type="hidden" name="curr" value="BTC">
             </form>
         </div>
         <div class="col-5">
-            <form id="regFormSell" action="/action_page.php" style="width: auto">
+            <form id="regFormSell" method="POST" action="{{'/instant/sell'}}" style="width: auto">
+              {{ csrf_field() }}
               <h1>Jual Bitcoin:</h1>
               <!-- One "tab" for each step in the form: -->
               <div class="tabSell">Input:
@@ -258,6 +259,7 @@
                 <span class="stepSell"></span>
                 <span class="stepSell"></span>
               </div>
+              <input type="hidden" name="curr" value="BTC">
             </form>
         </div>
     </section>

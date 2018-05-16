@@ -42,9 +42,18 @@ class HomeController extends Controller
 
     public function showInstant()
     {
+        $client = new Client();
         $wallet = Wallet::where('user_id',Auth::user()->id)->get();
-        // dd($wallet);
+        $res = $client->request('GET', 'https://min-api.cryptocompare.com/data/pricemultifull?fsyms=BTC&tsyms=IDR');
+        $prices = json_decode($res->getBody(), true);
+        // dd($prices["RAW"]["BTC"]["IDR"]["PRICE"]);
+        $rupiah = Wallet::where('user_id',Auth::user()->id)->where('currency',"IDR")->get();
+        $btc = Wallet::where('user_id',Auth::user()->id)->where('currency',"BTC")->get();
+        // dd($rupiah);
         $data['wallet'] = $wallet;
+        $data['price'] = $prices["RAW"]["BTC"]["IDR"]["PRICE"];
+        $data['rupiah'] = $rupiah;
+        $data['btc'] = $btc;
         return view('instant',$data);
     }
 

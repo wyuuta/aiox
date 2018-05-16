@@ -23,15 +23,7 @@ class FrontController extends Controller
         $res = $client->request('GET', 'https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ETH,BTC,BCH,XRP,LTC,ETC,XLM,NEO,XEM,XVG&tsyms=IDR');
         
         $prices = json_decode($res->getBody(), true);
-        // dd($prices['RAW']);
-        foreach ($prices['RAW'] as $price) {
-            # code...
-            // dd($price["IDR"]["PRICE"]);
-            // foreach ($price as $value) {
-            //     # code...
-            //     dd($value);
-            // }
-        }
+        
         $data['prices'] = $prices['RAW'];
         return view('index',$data);
     }
