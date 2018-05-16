@@ -89,12 +89,12 @@ class TransactionController extends Controller
         $wallet_to = Wallet::where('user_id', Auth::user()->id)->where('currency',$request->curr)->first();
         $wallet_from = Wallet::where('user_id', Auth::user()->id)->where('currency',"IDR")->first();
         $client = new Client();
-        $res = $client->request('GET', 'https://min-api.cryptocompare.com/data/price?fsym='.$request->curr.'&tsyms=IDR');
+        $res = $client->request('GET', 'https://min-api.cryptocompare.com/data/price?fsym=IDR&tsyms='.$request->curr);
         $arr = json_decode($res->getBody(), true);
         // dd($arr);
-        $price = floatval($arr["IDR"]);
+        $price = floatval($arr[$request->curr]);
         
-        if($request->value*$price > $wallet_from->balance){
+        if($request->value > $wallet_from->balance){
             Session::flash('message','Balance uang tidak cukup!');
             return redirect('/instant');
         }
@@ -104,7 +104,7 @@ class TransactionController extends Controller
         $transaction->from_user = Auth::user()->id;
         $transaction->to_user = Auth::user()->id;
         $transaction->currency = $request->curr;
-        $transaction->type = 'BUY_'.$request->curr;
+        $transaction->type = 'BUY_'.$request->curr*$price;
         $transaction->value = floatval($request->value);
         $transaction->save();
 
@@ -116,10 +116,10 @@ class TransactionController extends Controller
         $transaction->value = floatval($request->value*$price);
         $transaction->save();
 
-        $wallet_from->balance -= floatval($request->value*$price);
+        $wallet_from->balance -= floatval($request->value);
         $wallet_from->save();
 
-        $wallet_to->balance +=floatval($request->value);
+        $wallet_to->balance +=floatval($request->value*$price);
         $wallet_to->save();
 
         Session::flash('message','Penarikan uang berhasil!');
