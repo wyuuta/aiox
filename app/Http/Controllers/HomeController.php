@@ -28,7 +28,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        echo "<script>setTimeout(function(){ window.location.href = 'http://aiox.test/instant'; }, 5000);</script>";
+        echo "<script>setTimeout(function(){ window.location.href = '/instant'; }, 2000);</script>";
         return view("home");
     }
 
@@ -38,6 +38,14 @@ class HomeController extends Controller
         // dd($wallet);
         $data['wallet'] = $wallet;
         return view('balance',$data);
+    }
+
+    public function showInstant()
+    {
+        $wallet = Wallet::where('user_id',Auth::user()->id)->get();
+        // dd($wallet);
+        $data['wallet'] = $wallet;
+        return view('instant',$data);
     }
 
     public function showCryptoCharts()

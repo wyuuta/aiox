@@ -20,27 +20,17 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>
-                        <img width="16" height="16" class="logo-sprite" alt="Bitcoin" src="{{URL::asset('/image/icons/Ripple.png')}}"/>
-                        <span>Ripple</span>
-                    </td>
-                    <td>5146</td>
-                </tr>
-                <tr>
-                    <td>
-                        <img width="16" height="16" class="logo-sprite" alt="Bitcoin" src="{{URL::asset('/image/icons/ETC.png')}}"/>
-                        <span>ETC</span>
-                    </td>
-                    <td>14.2</td>
-                </tr>
-                <tr>
-                    <td>
-                        <img width="16" height="16" class="logo-sprite" alt="Bitcoin" src="{{URL::asset('/image/icons/BCH.png')}}"/>
-                        <span>BCH</span>
-                    </td>
-                    <td>1.23</td>
-                </tr>
+                @foreach($wallet as $w)
+                    <tr>
+                        <td>
+                            <img width="16" height="16" class="logo-sprite" alt="Bitcoin" src="{{URL::asset('/image/icons/'.$w->currency.'.png')}}"/>
+                            <span>{{$w->currency_name}}</span>
+                        </td>
+                        <td>
+                            {{$w->balance}}
+                        </td>
+                    </tr>
+                @endforeach
             </tbody>
         </table>
         </div>
@@ -71,7 +61,7 @@
                             </div>
                         </div>
                         <div class="col-5" >
-                            <h4 >0.0 btc</h4>
+                            <h4 >0.0 BTC</h4>
                         </div>
                     </div>
                 </div> 
@@ -91,7 +81,7 @@
                         <div class="col-7 bg-success">
                             <div class="row">
                             <div class="col-1">
-                                <img width="30" height="30" class="logo-sprite" alt="Bitcoin" src="{{URL::asset('/image/icons/Rupiah.png')}}"/>
+                                <img width="30" height="30" class="logo-sprite" alt="Bitcoin" src="{{URL::asset('/image/icons/IDR.png')}}"/>
                             </div>
                             <div class="col-6">
                                 <h5>Rupiah</h5> 
@@ -119,7 +109,7 @@
                         <h5> Saldo Rupiah:</h5>
                     </div>
                     <div class="col-5">
-                        <h5 id="saldorupiah">Rp 0</h5>
+                        <h5 id="saldobeli">Rp 0</h5>
                     </div>
                 </div>
                 <div class="row" style="margin-bottom: 25px;">
