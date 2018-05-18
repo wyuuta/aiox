@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use App\Wallet;
@@ -82,5 +83,16 @@ class HomeController extends Controller
         $user->phone = $request->phone;
         $user->save();
         return redirect('profil');
+    }
+
+    public function changePassword(Request $request)
+    {
+        $user = Auth::user();
+        if(Hash::make($request->oldpass) != $user->password || $request->newpass != $request->newpassconfirm){
+            return redirect ('profil');
+        }
+        $user->password = Hash::make($request->newpass);
+        $user->save();
+        return redirect ('profil');
     }
 }

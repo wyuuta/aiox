@@ -39,6 +39,8 @@ Route::get("/profil", 'HomeController@showProfile')->name('profil');
 
 Route::post("/profil/submit", 'HomeController@editProfile');
 
+Route::post("/profil/changepass", 'HomeController@changePassword');
+
 Route::get("/instant",'HomeController@showInstant')->name('instant');
 
 Route::get("/main");
@@ -57,6 +59,8 @@ Route::post('/balance/deposit/{curr}','TransactionController@depositMoney');
 
 Route::post('/balance/withdraw/{curr}', 'TransactionController@withdrawMoney');
 
-Route::get('/market',function(){
-	return view('market');
-})->name('market');
+// Route::get('/market',function(){
+// 	return view('market');
+// })->name('market');
+
+Route::get('market/{from}/{to}', 'TradingController@showMarket');
