@@ -1,10 +1,10 @@
 @extends('layouts.app')
 @section('navbarlink')
 <ul class="navbar-nav mr-auto">
-    <li class="nav-item active"><a class="nav-link" href="{{route('instant')}}">Tukar Instan</a></li>
+    <li class="nav-item"><a class="nav-link" href="{{route('instant')}}">Tukar Instan</a></li>
     <li class="nav-item" ><a class="nav-link" href="{{route('market')}}">Market</a></li>
     <li class="nav-item" ><a class="nav-link" href="{{route('balance')}}">Balance</a></li>
-    <li class="nav-item" ><a class="nav-link" href="{{route('profil')}}">Profil</a></li>
+    <li class="nav-item active" ><a class="nav-link" href="{{route('profil')}}">Profil</a></li>
 </ul>
 @endsection
 @section('content')
