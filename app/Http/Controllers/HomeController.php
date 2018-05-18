@@ -66,13 +66,14 @@ class HomeController extends Controller
         return view('market',$data);
     }
 
-    public function showUserInfo()
+    public function showProfile()
     {
         $info = Auth::user();
-        return view('profil',$info);
+        $data['profile'] = $info;
+        return view('profile',$data);
     }
 
-    public function editUser(Request $request)
+    public function editProfile(Request $request)
     {
         $user = Auth::user();
         $user->name = $request->name;
@@ -80,6 +81,6 @@ class HomeController extends Controller
         $user->address = $request->address;
         $user->phone = $request->phone;
         $user->save();
-        return Redirect::to('profil');
+        return redirect('profil');
     }
 }

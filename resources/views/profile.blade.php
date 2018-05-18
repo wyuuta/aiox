@@ -49,7 +49,7 @@
 					Nama Lengkap
 				</div>
 				<div class="col-md-8">
-					Jono Budiman
+					{{$profile->name}}
 				</div>
 			</div>
 			<div class="row m15">
@@ -58,7 +58,7 @@
 					Email
 				</div>
 				<div class="col-md-8">
-					jono.budiman@gmail.com
+					{{$profile->email}}
 				</div>
 				
 			</div>
@@ -68,7 +68,7 @@
 					Nomor HP
 				</div>
 				<div class="col-md-8">
-					081568975587515
+					{{$profile->phone}}
 				</div>
 				
 			</div>
@@ -78,13 +78,69 @@
 					Alamat
 				</div>
 				<div class="col-md-8">
-					Araya tahap 1 Nomor 51, Surabaya, Jawa Timur
+					{{$profile->address}}
 				</div>
 				
 			</div>
 		</div>
 		<div class="tab-pane fade" id="editakun">
-			Ini edit akun
+			<div class="card-body">
+	        <form method="POST" action="{{url('/profil/submit')}}">
+	            {{ csrf_field() }}
+
+	            <div class="form-group row">
+	                <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
+
+	                <div class="col-md-6">
+	                    <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{$profile->name}}" required autofocus>
+
+	                    @if ($errors->has('name'))
+	                        <span class="invalid-feedback">
+	                            <strong>{{ $errors->first('name') }}</strong>
+	                        </span>
+	                    @endif
+	                </div>
+	            </div>
+
+	            <div class="form-group row">
+	                <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+
+	                <div class="col-md-6">
+	                    <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{$profile->email}}" required>
+
+	                    @if ($errors->has('email'))
+	                        <span class="invalid-feedback">
+	                            <strong>{{ $errors->first('email') }}</strong>
+	                        </span>
+	                    @endif
+	                </div>
+	            </div>
+
+	            <div class="form-group row">
+	                <label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Phone') }}</label>
+
+	                <div class="col-md-6">
+	                    <input id="phone" class="form-control" type="text" name="phone" value="{{$profile->phone}}">
+	                </div>
+	            </div>
+
+	            <div class="form-group row">
+	                <label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Address') }}</label>
+
+	                <div class="col-md-6">
+	                    <input id="address" class="form-control" type="text" name="address" value="{{$profile->address}}">
+	                </div>
+	            </div>
+
+	            <div class="form-group row mb-0">
+	                <div class="col-md-6 offset-md-4">
+	                    <button type="submit" class="btn btn-primary">
+	                        {{ __('Update') }}
+	                    </button>
+	                </div>
+	            </div>
+	        </form>
+	    </div>
 		</div>
 		<div class="tab-pane fade" id="keamanan">
 			Ini kemanan

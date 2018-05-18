@@ -35,9 +35,9 @@ Route::post("/instant/sell","TransactionController@instantSell");
 
 // Route::get("/profil","TradingController@showMarket")->name('profil');
 
-Route::get("/profil",function(){
-	return view('profile');
-})->name('profil');
+Route::get("/profil", 'HomeController@showProfile')->name('profil');
+
+Route::post("/profil/submit", 'HomeController@editProfile');
 
 Route::get("/instant",'HomeController@showInstant')->name('instant');
 
