@@ -21,10 +21,6 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get("/market","TradingController@showMarket")->name('market');
-
-// Route::get("/instant", "TradingController@showInstant")->name('instant');
-
 Route::get("/balance","HomeController@showWallet")->name('balance');
 
 Route::get("/balance/{curr}","TransactionController@showUserTransactions");
@@ -32,8 +28,6 @@ Route::get("/balance/{curr}","TransactionController@showUserTransactions");
 Route::post("/instant/buy","TransactionController@instantBuy");
 
 Route::post("/instant/sell","TransactionController@instantSell");
-
-// Route::get("/profil","TradingController@showMarket")->name('profil');
 
 Route::get("/profil", 'HomeController@showProfile')->name('profil');
 
@@ -63,4 +57,12 @@ Route::post('/balance/withdraw/{curr}', 'TransactionController@withdrawMoney');
 // 	return view('market');
 // })->name('market');
 
+<<<<<<< HEAD
 Route::get('market/{from}/{to}', 'TradingController@showMarket');
+=======
+Route::get('/market/{from}/{to}', 'TradingController@showMarket');
+
+Route::post('/market/buy', 'TradingController@createBuyOrder');
+
+Route::post('/market/sell', 'TradingController@createSellOrder');
+>>>>>>> 2226727a2d22105b833568e3c8102e058722bc49

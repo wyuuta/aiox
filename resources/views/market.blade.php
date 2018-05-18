@@ -3,7 +3,7 @@
 @section('navbarlink')
 <ul class="navbar-nav mr-auto">
     <li class="nav-item"><a class="nav-link" href="{{route('instant')}}">Tukar Instan</a></li>
-    <li class="nav-item active"><a class="nav-link" href="{{route('market')}}">Market</a></li>
+    <li class="nav-item active"><a class="nav-link" href="{{url('/market/IDR/BTC')}}">Market</a></li>
     <li class="nav-item" ><a class="nav-link" href="{{route('balance')}}">Balance</a></li>
     <li class="nav-item" ><a class="nav-link" href="{{route('profil')}}">Profil</a></li>
 </ul>
@@ -45,24 +45,26 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td>BTC</td>
-						<td>RP 120222548</td>
-						<td>4.1248 M</td>
-						<td>1%</td>
-					</tr>
-					<tr>
-						<td>ETH</td>
-						<td>RP 12222548</td>
-						<td>2.1248 M</td>
-						<td>0.1%</td>
-					</tr>
-					<tr>
-						<td>ETC</td>
-						<td>RP 1222254</td>
-						<td>410 Jt</td>
-						<td>0.5%</td>
-					</tr>
+					@foreach($price as $key => $p)
+						<tr>
+							<td>
+								@if($key == $to)
+									<a class="active" href="/market/{{$from.'/'.$key}}">{{$key}}</a>
+								@else
+									<a class="" href="/market/{{$from.'/'.$key}}">{{$key}}</a>
+								@endif
+							</td>
+							<td>
+								{{number_format($p[$from]['PRICE'], 2, ".", "")}}
+							</td>
+							<td>
+								{{number_format($p[$from]['TOTALVOLUME24H'], 2, ".", "")}}
+							</td>
+							<td>
+								{{number_format($p[$from]['CHANGEPCT24HOUR'], 2, ".", "")}}
+							</td>
+						</tr>
+					@endforeach
 				</tbody>
 			</table>
 		</div>
@@ -88,20 +90,20 @@
 							<ul class="nav nav-tabs navbar-dark bg-dark" role="tablist">
 								<li class="nav-item">
 									
-									<h4>Beli btc</h4>
+									<h4>{{"Buy ".$to}}</h4>
 									
 								</li>
 							</ul>
 							<div class="tab-content clearfix tab-content-dark">
 								<div class="tab-pane active" id="deposit" >
-									<form>
+									<form method="POST" action="{{url('/market/buy')}}">
 										{{csrf_field()}}
 										<div class="form-group row">
 										    <label class="col-sm-4 col-form-label">
 										    	Total Rupiah
 										    </label>
 										    <div class="col-sm-8">
-										      	<input type="text" placeholder="Jumlah rupiah" name="value">
+										      	<input onchange="onBuyChanged()" id="jumlahbeli" type="text" placeholder="Jumlah rupiah" name="amount">
 										    </div>
 										</div>
 
@@ -109,8 +111,8 @@
 										    <label class="col-sm-4 col-form-label">
 										    	Harga
 										    </label>
-										    <div class="col-sm-8">
-										      	<input type="text" readonly="" value="120225400">
+										    <div class ="col-sm-8">
+										      	<input id="hargabeli" type="text" name="rate" readonly="" value="{{$price[$to][$from]['PRICE']}}">
 										    </div>
 										</div>
 
@@ -119,7 +121,7 @@
 										    	Biaya
 										    </label>
 										    <div class="col-sm-8">
-										      	<input id="biayabeli" readonly="" value="5014200">
+										      	<input id="biayabeli" readonly="" value="" name="cost">
 										    </div>
 										</div>
 
@@ -128,8 +130,17 @@
 										    	Estimasi
 										    </label>
 										    <div class="col-sm-8">
-										      	<input id="estimasibeli" readonly="" value="120225400">
+										      	<input id="estimasibeli" readonly="" value="">
 										    </div>
+										</div>
+										<div class="form-group row">
+											<div class="col-lg-2"></div>
+											<input class="btn btn-success col-lg-8" type="submit" value="Buy">
+												
+											
+											<input type="hidden" name="from_curr" value="{{$from}}">
+											<input type="hidden" name="to_curr" value="{{$to}}">
+											<div class="col-lg-2"></div>
 										</div>
 									</form>
 								</div>
@@ -146,20 +157,20 @@
 							<ul class="nav nav-tabs navbar-dark bg-dark" role="tablist">
 								<li class="nav-item">
 									
-									<h4>Jual btc</h4>
+									<h4>{{"Jual ".$to}}</h4>
 									
 								</li>
 							</ul>
 							<div class="tab-content clearfix tab-content-dark">
 								<div class="tab-pane active" id="deposit" >
-									<form>
+									<form method="POST" action="{{url('/market/sell')}}">
 										{{csrf_field()}}
 										<div class="form-group row">
 										    <label class="col-sm-4 col-form-label">
-										    	Total BTC
+										    	Total {{$to}}
 										    </label>
 										    <div class="col-sm-8">
-										      	<input type="text" placeholder="Jumlah rupiah" name="value">
+										      	<input onchange="onSellChanged()" id="jumlahjual" type="text" placeholder="Jumlah {{$to}}" name="amount">
 										    </div>
 										</div>
 
@@ -168,7 +179,7 @@
 										    	Harga
 										    </label>
 										    <div class="col-sm-8">
-										      	<input type="text" readonly="" value="120225400">
+										      	<input id="hargajual" type="text" readonly="" value="{{$price[$to][$from]['PRICE']}}" name="rate">
 										    </div>
 										</div>
 
@@ -177,7 +188,7 @@
 										    	Biaya
 										    </label>
 										    <div class="col-sm-8">
-										      	<input id="biayabeli" readonly="" value="0.0021">
+										      	<input id="biayajual" readonly="" value="">
 										    </div>
 										</div>
 
@@ -186,8 +197,17 @@
 										    	Estimasi
 										    </label>
 										    <div class="col-sm-8">
-										      	<input id="estimasibeli" readonly="" value="120225400">
+										      	<input id="estimasijual" readonly="" value="">
 										    </div>
+										</div>
+
+										<div class="form-group row">
+											<div class="col-lg-2"></div>
+											<input class="btn btn-success col-lg-8" type="submit" value="sell">
+												
+											<input type="hidden" name="from_curr" value="{{$from}}">
+											<input type="hidden" name="to_curr" value="{{$to}}">
+											<div class="col-lg-2"></div>
 										</div>
 									</form>
 								</div>
@@ -233,6 +253,7 @@
 											</tr>
 										</thead>
 										<tbody>
+
 											<tr>
 												<td>
 													Kode
@@ -504,4 +525,5 @@
 		<!-- end chart, etc -->
 	</div>
 </div>
+<script src="{{ asset('js/market.js') }}"></script>
 @endsection

@@ -26,19 +26,19 @@
                         <tr>
                             <td>{{$price["IDR"]["FROMSYMBOL"]."/".$price["IDR"]["TOSYMBOL"]}}</td>
                             <td>
-                                {{number_format($price["IDR"]["PRICE"],2,",","")}}
+                                {{number_format($price["IDR"]["PRICE"],2,".","")}}
                             </td>
                             <td>
-                                {{number_format($price["IDR"]["CHANGEPCT24HOUR"],2,",","")}}
+                                {{number_format($price["IDR"]["CHANGEPCT24HOUR"],2,".","")}}
                             </td>
                             <td>
-                                {{number_format($price["IDR"]["TOTALVOLUME24H"],2,",","")}}
+                                {{number_format($price["IDR"]["TOTALVOLUME24H"],2,".","")}}
                             </td>
                             <td>
-                                {{number_format(floatval($price["IDR"]["PRICE"])*0.99,2,",","")}}
+                                {{number_format(floatval($price["IDR"]["PRICE"])*0.99,2,".","")}}
                             </td>
                             <td>
-                                {{number_format(floatval($price["IDR"]["PRICE"]*1.01),2,",","")}}
+                                {{number_format(floatval($price["IDR"]["PRICE"]*1.01),2,".","")}}
                             </td>
                         </tr>
                     @endforeach
