@@ -56,3 +56,7 @@ Route::get('/chart', 'HomeController@showCryptoCharts')->name('chart');
 Route::post('/balance/deposit/{curr}','TransactionController@depositMoney');
 
 Route::post('/balance/withdraw/{curr}', 'TransactionController@withdrawMoney');
+
+Route::get('/market',function(){
+	return view('market');
+})->name('market');
