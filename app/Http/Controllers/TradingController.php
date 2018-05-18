@@ -9,6 +9,7 @@ use App\Transactions;
 use App\Order;
 use App\OrderGroup;
 use Auth;
+use Session;
 
 class TradingController extends Controller
 {
@@ -26,23 +27,27 @@ class TradingController extends Controller
         $data['buygroup'] = $buygroup;
         $data['sellgroup'] = $sellgroup;
         $client = new Client();
-        $res = $client->request('GET', 'https://min-api.cryptocompare.com/data/pricemulti?fsyms=IDR,ETH,BTC,BCH,XRP,LTC,ETC,XLM,NEO,XEM,XVG&tsyms='.$from);
-        $data['price'] = json_decode($res->getBody(), true);
+        $res = $client->request('GET', 'https://min-api.cryptocompare.com/data/pricemultifull?fsyms=IDR,ETH,BTC,BCH,XRP,LTC,ETC,XLM,NEO,XEM,XVG&tsyms='.$from);
+        $data['price'] = json_decode($res->getBody(), true)['RAW'];
         $res = $client->request('GET', 'https://min-api.cryptocompare.com/data/histohour?fsym='.$to.'&tsym='.$from.'&limit=60&aggregate=3&e=CCCAGG');
         $data['histo'] = json_decode($res->getBody(), true);
+        $data['from'] = $from;
+        $data['to'] = $to;
         return view ('market',$data);
     }
 
     public function createBuyOrder(Request $request)
-    {  
+    {
+        $request->rate = floatval($request->rate);
+        $request->amount =floatval($request->amount);
         $sellgroup = OrderGroup::where('rate','<=', $request->rate)->where('type','SELL')->where('from_curr',$request->from_curr)->where('to_curr',$request->to_curr)->orderBy('rate')->get();
-        $userwallet_from = Wallet::where('user_id',Auth::user()->id)->where('currency',$request->from_curr);
-        $userwallet_to = Wallet::where('user_id',Auth::user()->id)->where('currency',$request->to_curr);
+        $userwallet_from = Wallet::where('user_id',Auth::user()->id)->where('currency',$request->from_curr)->first();
+        $userwallet_to = Wallet::where('user_id',Auth::user()->id)->where('currency',$request->to_curr)->first();
         $amount = $request->amount;
-        if($amount*$request->rate > $userwallet_to->balance){
+        if($amount > $userwallet_from->balance){
             //error
             Session::flash('message','Balance tidak cukup!');
-            return redirect('/trading');
+            return redirect('/market/IDR/BTC');
         }
         foreach($sellgroup as $sell){
             $orders = Order::where('type',"SELL")->where('rate',$sell->rate)->where('from_curr',$request->to_curr)->where('to_curr',$request->from_curr)->orderBy('created_at')->get();
@@ -90,7 +95,7 @@ class TradingController extends Controller
             $order->save();
         }
 
-        $group = OrderGroup::where('rate',$request->rate)->where('type','BUY')->get();
+        $group = OrderGroup::where('rate',$request->rate)->where('type','BUY')->first();
         if ($group == null){
             $buyorder = new OrderGroup;
             $buyorder->type = 'BUY';
@@ -98,27 +103,28 @@ class TradingController extends Controller
             $buyorder->from_curr = $request->from_curr;
             $buyorder->to_curr = $request->to_curr;
             $buyorder->total = $amount;
+            $buyorder->save();
         }
         else{
             $group->total += $amount;
             $group->save();
         }
-        return redirect('/trading');
+        return redirect('/market/IDR/BTC');
     }
 
     public function createSellOrder(Request $request)
     {
        $buygroup = OrderGroup::where('rate','<=', $request->rate)->where('type','BUY')->where('from_curr',$request->from_curr)->where('to_curr',$request->to_curr)->orderBy('rate')->get();
-        $userwallet_from = Wallet::where('user_id',Auth::user()->id)->where('currency',$request->from_curr);
-        $userwallet_to = Wallet::where('user_id',Auth::user()->id)->where('currency',$request->to_curr);
+        $userwallet_from = Wallet::where('user_id',Auth::user()->id)->where('currency',$request->from_curr)->first();
+        $userwallet_to = Wallet::where('user_id',Auth::user()->id)->where('currency',$request->to_curr)->first();
         $amount = $request->amount;
         if($amount > $userwallet_from->balance){
             //error
             Session::flash('message','Balance tidak cukup!');
-            return Redirect::to('/trading');
+            return redirect('/market/IDR/BTC');
         }
         foreach($buygroup as $buy){
-            $orders = Order::where('type',"BUY")->where('rate',$sell->rate)->where('from_curr',$request->to_curr)->where('to_curr',$request->from_curr)->orderBy('created_at')->get();
+            $orders = Order::where('type',"BUY")->where('rate',$buy->rate)->where('from_curr',$request->to_curr)->where('to_curr',$request->from_curr)->orderBy('created_at')->get();
             $flag = 0;
             foreach($orders as $ord){
                 if ($amount > $ord->amount){
@@ -163,7 +169,7 @@ class TradingController extends Controller
             $order->save();
         }
 
-        $group = OrderGroup::where('rate',$request->rate)->where('type','SELL')->get();
+        $group = OrderGroup::where('rate',$request->rate)->where('type','SELL')->first();
         if ($group == null){
             $buyorder = new OrderGroup;
             $buyorder->type = 'SELL';
@@ -171,26 +177,27 @@ class TradingController extends Controller
             $buyorder->from_curr = $request->from_curr;
             $buyorder->to_curr = $request->to_curr;
             $buyorder->total = $amount;
+            $buyorder->save();
         }
         else{
             $group->total += $amount;
             $group->save();
         }
-        return redirect('/trading');
+        return redirect('/market/IDR/BTC');
     }
 
     private function createBuyTransaction($userwallet_from,$userwallet_to,$ord,$amount)
     {
-        $otherwallet_from = Wallet::where('user_id',$ord->user_id)->where('currency',$ord->from_curr);
-        $otherwallet_to = Wallet::where('user_id',$ord->user_id)->where('currency',$ord->to_curr);
+        $otherwallet_from = Wallet::where('user_id',$ord->user_id)->where('currency',$ord->from_curr)->first();
+        $otherwallet_to = Wallet::where('user_id',$ord->user_id)->where('currency',$ord->to_curr)->first();
 
-        $userwallet_from->balance += $amount;
+        $userwallet_from->balance += $amount*0.97;
         $userwallet_from->save();
         $userwallet_to->balance -= $amount*$ord->rate;
         $userwallet_to->save();
         $otherwallet_from->balance -= $amount;
         $otherwallet_from->save();
-        $otherwallet_to->balance += $amount*$ord->rate;
+        $otherwallet_to->balance += $amount*$ord->rate*0.97;
         $otherwallet_to->save();
 
         $trans1 = new Transactions;
@@ -212,14 +219,14 @@ class TradingController extends Controller
 
     private function createSellTransaction($userwallet_from,$userwallet_to,$ord,$amount)
     {
-        $otherwallet_from = Wallet::where('user_id',$ord->user_id)->where('currency',$ord->from_curr);
-        $otherwallet_to = Wallet::where('user_id',$ord->user_id)->where('currency',$ord->to_curr);
+        $otherwallet_from = Wallet::where('user_id',$ord->user_id)->where('currency',$ord->from_curr)->first();
+        $otherwallet_to = Wallet::where('user_id',$ord->user_id)->where('currency',$ord->to_curr)->first();
 
         $userwallet_from->balance -= $amount;
         $userwallet_from->save();
-        $userwallet_to->balance += $amount*$ord->rate;
+        $userwallet_to->balance += $amount*$ord->rate*0.97;
         $userwallet_to->save();
-        $otherwallet_from->balance += $amount;
+        $otherwallet_from->balance += $amount*0.97;
         $otherwallet_from->save();
         $otherwallet_to->balance -= $amount*$ord->rate;
         $otherwallet_to->save();
