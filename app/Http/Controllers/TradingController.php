@@ -31,6 +31,10 @@ class TradingController extends Controller
         $data['price'] = json_decode($res->getBody(), true)['RAW'];
         $res = $client->request('GET', 'https://min-api.cryptocompare.com/data/histohour?fsym='.$to.'&tsym='.$from.'&limit=60&aggregate=3&e=CCCAGG');
         $data['histo'] = json_decode($res->getBody(), true);
+        $transactions = Transactions::where('type',"TRADE")->get();
+        $data['transactions'] = $transactions;
+        $orders = Order::where("user_id",Auth::user()->id)->get();
+        $data['orders'] = $orders;
         $data['from'] = $from;
         $data['to'] = $to;
         return view ('market',$data);
@@ -40,7 +44,7 @@ class TradingController extends Controller
     {
         $request->rate = floatval($request->rate);
         $request->amount =floatval($request->amount);
-        $sellgroup = OrderGroup::where('rate','<=', $request->rate)->where('type','SELL')->where('from_curr',$request->from_curr)->where('to_curr',$request->to_curr)->orderBy('rate')->get();
+        $sellgroup = OrderGroup::where('rate','<=', $request->rate)->where('type','SELL')->where('from_curr',$request->from_curr)->where('to_curr',$request->to_curr)->where('user_id','!=',Auth::user()->id)->orderBy('rate')->get();
         $userwallet_from = Wallet::where('user_id',Auth::user()->id)->where('currency',$request->from_curr)->first();
         $userwallet_to = Wallet::where('user_id',Auth::user()->id)->where('currency',$request->to_curr)->first();
         $amount = $request->amount;
@@ -124,7 +128,7 @@ class TradingController extends Controller
             return redirect('/market/IDR/BTC');
         }
         foreach($buygroup as $buy){
-            $orders = Order::where('type',"BUY")->where('rate',$buy->rate)->where('from_curr',$request->to_curr)->where('to_curr',$request->from_curr)->orderBy('created_at')->get();
+            $orders = Order::where('type',"BUY")->where('rate',$buy->rate)->where('from_curr',$request->to_curr)->where('to_curr',$request->from_curr)->where('user_id','!=',Auth::user()->id)->orderBy('created_at')->get();
             $flag = 0;
             foreach($orders as $ord){
                 if ($amount > $ord->amount){
@@ -171,13 +175,13 @@ class TradingController extends Controller
 
         $group = OrderGroup::where('rate',$request->rate)->where('type','SELL')->first();
         if ($group == null){
-            $buyorder = new OrderGroup;
-            $buyorder->type = 'SELL';
-            $buyorder->rate = $request->rate;
-            $buyorder->from_curr = $request->from_curr;
-            $buyorder->to_curr = $request->to_curr;
-            $buyorder->total = $amount;
-            $buyorder->save();
+            $sellorder = new OrderGroup;
+            $sellorder->type = 'SELL';
+            $sellorder->rate = $request->rate;
+            $sellorder->from_curr = $request->from_curr;
+            $sellorder->to_curr = $request->to_curr;
+            $sellorder->total = $amount;
+            $sellorder->save();
         }
         else{
             $group->total += $amount;
