@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use GuzzleHttp\Client;
 use App\Wallet;
 use App\Transactions;
 use App\Order;
@@ -16,18 +17,20 @@ class TradingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function showBuyOrder(Request $request)
-    {
-        //function to show trading list
-        $buygroup = OrderGroup::where('type','BUY')->paginate(20);
-        return view ('buylist',$buygroup);
-    }
 
-    public function showSellOrder(Request $request)
+    //function to show market, passing sell buy order price and history for chart
+    public function showMarket($from, $to)
     {
-        //function to show trading list
-        $buygroup = OrderGroup::where('type','SELL')->paginate(20);
-        return view ('selllist',$sellgroup);
+        $buygroup = OrderGroup::where('type','BUY')->where('from_curr',$from)->where('to_curr',$to)->paginate(20);
+        $sellgroup = OrderGroup::where('type','SELL')->where('from_curr',$from)->where('to_curr',$to)->paginate(20);
+        $data['buygroup'] = $buygroup;
+        $data['sellgroup'] = $sellgroup;
+        $client = new Client();
+        $res = $client->request('GET', 'https://min-api.cryptocompare.com/data/pricemulti?fsyms=IDR,ETH,BTC,BCH,XRP,LTC,ETC,XLM,NEO,XEM,XVG&tsyms='.$from);
+        $data['price'] = json_decode($res->getBody(), true);
+        $res = $client->request('GET', 'https://min-api.cryptocompare.com/data/histohour?fsym='.$to.'&tsym='.$from.'&limit=60&aggregate=3&e=CCCAGG');
+        $data['histo'] = json_decode($res->getBody(), true);
+        return view ('market',$data);
     }
 
     public function createBuyOrder(Request $request)
