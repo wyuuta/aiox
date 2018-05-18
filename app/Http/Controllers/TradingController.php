@@ -31,6 +31,8 @@ class TradingController extends Controller
         $data['price'] = json_decode($res->getBody(), true)['RAW'];
         $res = $client->request('GET', 'https://min-api.cryptocompare.com/data/histohour?fsym='.$to.'&tsym='.$from.'&limit=60&aggregate=3&e=CCCAGG');
         $data['histo'] = json_decode($res->getBody(), true);
+        $data['histo'] = json_encode($data['histo']['Data']);
+        // dd(json_encode($data['histo']['Data']));
         $transactions = Transactions::where('type',"TRADE")->get();
         $data['transactions'] = $transactions;
         $orders = Order::where("user_id",Auth::user()->id)->get();

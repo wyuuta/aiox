@@ -76,8 +76,8 @@
 				<!-- chart -->
 				<div class="row">
 					<div class="col-lg-12">
+						<div id="chartContainer" style="width: 100%; height: 300px;"></div>
 					</div>
-
 				</div>
 				<!-- end chart -->
 
@@ -112,7 +112,7 @@
 										    	Harga
 										    </label>
 										    <div class ="col-sm-8">
-										      	<input id="hargabeli" type="text" name="rate" readonly="" value="{{$price[$to][$from]['PRICE']}}">
+										      	<input id="hargabeli" type="text" name="rate" value="{{$price[$to][$from]['PRICE']}}">
 										    </div>
 										</div>
 
@@ -179,7 +179,7 @@
 										    	Harga
 										    </label>
 										    <div class="col-sm-8">
-										      	<input id="hargajual" type="text" readonly="" value="{{$price[$to][$from]['PRICE']}}" name="rate">
+										      	<input id="hargajual" type="text" value="{{$price[$to][$from]['PRICE']}}" name="rate">
 										    </div>
 										</div>
 
@@ -242,10 +242,10 @@
 													Kode
 												</td>
 												<td>
-													Jumlah rupiah
+													Jumlah {{$from}}
 												</td>
 												<td>
-													Jumlah BTC
+													Jumlah {{$to}}
 												</td>
 												<td>
 													Bid
@@ -254,62 +254,30 @@
 										</thead>
 										<tbody>
 
-											<tr>
-												<td>
-													Kode
-												</td>
-												<td>
-													Jumlah rupiah
-												</td>
-												<td>
-													Jumlah BTC
-												</td>
-												<td>
-													Bid
-												</td>
-											</tr>
-											<tr>
-												<td>
-													Kode
-												</td>
-												<td>
-													Jumlah rupiah
-												</td>
-												<td>
-													Jumlah BTC
-												</td>
-												<td>
-													Bid
-												</td>
-											</tr>
-											<tr>
-												<td>
-													Kode
-												</td>
-												<td>
-													Jumlah rupiah
-												</td>
-												<td>
-													Jumlah BTC
-												</td>
-												<td>
-													Bid
-												</td>
-											</tr>
-											<tr>
-												<td>
-													Kode
-												</td>
-												<td>
-													Jumlah rupiah
-												</td>
-												<td>
-													Jumlah BTC
-												</td>
-												<td>
-													Bid
-												</td>
-											</tr>
+											@foreach($buygroup as $bg)
+												<tr>
+													<td>
+														{{$bg->to_curr}}
+													</td>
+													<td>
+														{{
+															round($bg->total, 8)
+														}}
+													</td>
+													<td>
+														{{
+															number_format( round(floatval($bg->total)/floatval($bg->rate), 8), 8, ".", "")
+														}}
+													</td>
+													<td>
+														{{
+															round($bg->rate, 8)
+														}}
+													</td>
+												</tr>
+											@endforeach
+
+											
 										</tbody>
 									</table>
 								</div>
@@ -339,10 +307,10 @@
 													Kode
 												</td>
 												<td>
-													Jumlah rupiah
+													Jumlah {{$to}}
 												</td>
 												<td>
-													Jumlah BTC
+													Jumlah {{$from}}
 												</td>
 												<td>
 													Bid
@@ -350,62 +318,28 @@
 											</tr>
 										</thead>
 										<tbody>
-											<tr>
-												<td>
-													Kode
-												</td>
-												<td>
-													Jumlah rupiah
-												</td>
-												<td>
-													Jumlah BTC
-												</td>
-												<td>
-													Bid
-												</td>
-											</tr>
-											<tr>
-												<td>
-													Kode
-												</td>
-												<td>
-													Jumlah rupiah
-												</td>
-												<td>
-													Jumlah BTC
-												</td>
-												<td>
-													Bid
-												</td>
-											</tr>
-											<tr>
-												<td>
-													Kode
-												</td>
-												<td>
-													Jumlah rupiah
-												</td>
-												<td>
-													Jumlah BTC
-												</td>
-												<td>
-													Bid
-												</td>
-											</tr>
-											<tr>
-												<td>
-													Kode
-												</td>
-												<td>
-													Jumlah rupiah
-												</td>
-												<td>
-													Jumlah BTC
-												</td>
-												<td>
-													Bid
-												</td>
-											</tr>
+											@foreach($sellgroup as $sg)
+												<tr>
+													<td>
+														{{$sg->to_curr}}
+													</td>
+													<td>
+														{{
+															round($sg->total, 8)
+														}}
+													</td>
+													<td>
+														{{
+															round(floatval($sg->total)*floatval($sg->rate), 8)
+														}}
+													</td>
+													<td>
+														{{
+															round($sg->rate, 8)
+														}}
+													</td>
+												</tr>
+											@endforeach
 										</tbody>
 									</table>
 								</div>
@@ -416,13 +350,69 @@
 				</div>
 				<!-- end order records -->
 
-				<!-- history  -->
+				<!-- current order -->
 				<div class="row" style="margin-top: 25px;">
 					<div class="col-lg-12">
 					<div class="contentpanel no-padding" style="overflow-y:auto; height: 100px">
 						<ul class="nav nav-tabs navbar-dark bg-dark" style ="position: static;" role="tablist">
 							<li class="nav-item">
-								<h4>Order History</h4>
+								<h4>Your Order</h4>
+							</li>
+						</ul>
+							
+						<div class="tab-content clearfix tab-content-dark">
+							<div class="tab-pane active" id="deposit">
+								<table class="table table-dark table-hover no-padding table-striped">
+									<thead>
+										<tr>
+											<td>
+												Tanggal waktu
+											</td>
+											<td>
+												Type
+											</td>
+											<td>
+												Harga
+											</td>
+											<td>
+												Sum
+											</td>
+										</tr>
+									</thead>
+									<tbody>
+										@foreach($orders as $order)
+											<tr>
+												<td>
+													{{$order->updated_at}}
+												</td>
+												<td>
+													{{$order->type}}
+												</td>
+												<td>
+													{{$order->rate}}
+												</td>
+												<td>
+													{{$order->amount}}
+												</td>
+											</tr>
+										@endforeach
+										
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					</div>
+				</div>
+				<!-- end current order -->
+
+				<!-- history  -->
+				<!-- <div class="row" style="margin-top: 25px;">
+					<div class="col-lg-12">
+					<div class="contentpanel no-padding" style="overflow-y:auto; height: 100px">
+						<ul class="nav nav-tabs navbar-dark bg-dark" style ="position: static;" role="tablist">
+							<li class="nav-item">
+								<h4>History</h4>
 							</li>
 						</ul>
 							
@@ -518,7 +508,7 @@
 						</div>
 					</div>
 					</div>
-				</div>
+				</div> -->
 				<!-- end history -->
 			</div>
 		</div>
@@ -526,4 +516,57 @@
 	</div>
 </div>
 <script src="{{ asset('js/market.js') }}"></script>
+<script type="text/javascript">
+
+window.onload = function () {
+
+	var datajson = {!! $histo !!};
+	var dataPoints = [];
+	for (var i = 0; i < datajson.length; i++){
+		var obj = datajson[i];
+		dataPoints.push({
+						x: new Date(
+							parseInt(obj['time']*1000)
+						),
+						y: [
+							parseFloat(obj['open']),
+							parseFloat(obj['high']),
+							parseFloat(obj['low']),
+							parseFloat(obj['close'])
+						]
+		});
+	}
+	var chart = new CanvasJS.Chart("chartContainer", {
+		animationEnabled: true,
+		theme: "light2", // "light1", "light2", "dark1", "dark2"
+		exportEnabled: true,
+		title: {
+				text: "Chart " + "{!! $from !!}" + " to " + "{!! $to !!}"
+		},
+		subtitles: [{
+				text: "Day"
+		}],
+		axisX: {
+				interval: 1,
+				valueFormatString: "MMM"
+		},
+		axisY: {
+				includeZero: false,
+				prefix: "$",
+				title: "Price"
+		},
+		toolTip: {
+				content: "Date: {x}<br /><strong>Price:</strong><br />Open: {y[0]}, Close: {y[3]}<br />High: {y[1]}, Low: {y[2]}"
+		},
+		data: [{
+				type: "candlestick",
+				yValueFormatString: "$##0.00",
+				dataPoints: dataPoints
+		}]
+	});
+
+}
+
+	
+</script>
 @endsection

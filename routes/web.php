@@ -57,12 +57,10 @@ Route::post('/balance/withdraw/{curr}', 'TransactionController@withdrawMoney');
 // 	return view('market');
 // })->name('market');
 
-<<<<<<< HEAD
 Route::get('market/{from}/{to}', 'TradingController@showMarket');
-=======
+
 Route::get('/market/{from}/{to}', 'TradingController@showMarket');
 
 Route::post('/market/buy', 'TradingController@createBuyOrder');
 
 Route::post('/market/sell', 'TradingController@createSellOrder');
->>>>>>> 2226727a2d22105b833568e3c8102e058722bc49
