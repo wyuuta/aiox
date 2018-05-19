@@ -18,17 +18,17 @@
 			<div class="no-padding">
 				<ul class="nav nav-tabs navbar-dark bg-dark" role="tablist">
 					<li class="nav-item">
-						<a data-toggle="tab" class="nav-link active" href="{{url('/market/IDR')}}">
+						<a class="nav-link active" href="{{url('/market/IDR/BTC')}}">
 							<h4>IDR</h4>
 						</a>
 					</li>
 					<li class="nav-item">
-						<a data-toggle="tab" class="nav-link" href="{{url('/market/BTC')}}">
+						<a class="nav-link" href="{{url('/market/BTC/ETH')}}">
 							<h4>BTC</h4>
 						</a>
 					</li>
 					<li class="nav-item">
-						<a data-toggle="tab" class="nav-link" href="{{url('/market/ETC')}}">
+						<a class="nav-link" href="{{url('/market/ETC/BTC')}}">
 							<h4>ETC</h4>
 						</a>
 					</li>
@@ -100,10 +100,10 @@
 										{{csrf_field()}}
 										<div class="form-group row">
 										    <label class="col-sm-4 col-form-label">
-										    	Total Rupiah
+										    	Total {{$from}}
 										    </label>
 										    <div class="col-sm-8">
-										      	<input onchange="onBuyChanged()" id="jumlahbeli" type="text" placeholder="Jumlah rupiah" name="amount">
+										      	<input onchange="onBuyChanged()" id="jumlahbeli" type="text" placeholder="Jumlah {{$from}}" name="amount">
 										    </div>
 										</div>
 
@@ -536,7 +536,16 @@ window.onload = function () {
 						]
 		});
 	}
+	var from_curr =  '{!! $from !!}';
+	var prefix ='';
+	if(from_curr =='IDR'){
+		prefix = 'RP';
+	}
+	else{
+		prefix = from_curr;
+	}
 	var chart = new CanvasJS.Chart("chartContainer", {
+
 		animationEnabled: true,
 		theme: "light2", // "light1", "light2", "dark1", "dark2"
 		exportEnabled: true,
@@ -552,7 +561,7 @@ window.onload = function () {
 		},
 		axisY: {
 				includeZero: false,
-				prefix: "$",
+				prefix: prefix,
 				title: "Price"
 		},
 		toolTip: {
