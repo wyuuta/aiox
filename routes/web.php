@@ -35,6 +35,10 @@ Route::post("/profil/submit", 'HomeController@editProfile');
 
 Route::post("/profil/changepass", 'HomeController@changePassword');
 
+Route::post("/profils", 'UserController@update_avatar');
+
+Route::post("/profil", 'UserController@profile');
+
 Route::get("/instant",'HomeController@showInstant')->name('instant');
 
 Route::get("/main");
@@ -64,3 +68,4 @@ Route::get('/market/{from}/{to}', 'TradingController@showMarket');
 Route::post('/market/buy', 'TradingController@createBuyOrder');
 
 Route::post('/market/sell', 'TradingController@createSellOrder');
+
