@@ -2,9 +2,9 @@
 @section('navbarlink')
 <ul class="navbar-nav mr-auto">
     <li class="nav-item"><a class="nav-link" href="{{route('instant')}}">Tukar Instan</a></li>
-    <li class="nav-item" ><a class="nav-link" href="{{route('market')}}">Market</a></li>
+    <li class="nav-item" ><a class="nav-link" href="{{url('/market/IDR/BTC')}}">Market</a></li>
     <li class="nav-item" ><a class="nav-link" href="{{route('balance')}}">Balance</a></li>
-    <li class="nav-item active" ><a class="nav-link" href="{{route('profil')}}">Profil</a></li>
+    <li class="nav-item active" ><a class="nav-link" href="{{route('profil')}}">Profile</a></li>
 </ul>
 @endsection
 @section('content')
@@ -13,7 +13,13 @@
 	<div class="col-md-2">
 		<div class="sidenav">
 			<div class="profilepict">
-				<img src="{{URL::asset('/image/blank-avatar.png')}}" width="200" height="200" class="img-thumbnail">
+				<img src="/image/avatars/{{ $profile->avatar }}" style="width:150px; height:150px; margin-right:25px; border-radius:50%; " class="img-thumbnail">
+				<form enctype="multipart/form-data" action="/profils" method="POST">
+				<label style="color:white ">Update Profile Image</label>
+				<input type="file" name="avatar">
+				<input type="hidden" name="_token" value="{{ csrf_token() }}">
+				<input type="submit" class="pull-right btn-sm btn-primary">	
+				</form>	
 			</div>
 			<hr/>
 			<ul class="nav flex-column">
