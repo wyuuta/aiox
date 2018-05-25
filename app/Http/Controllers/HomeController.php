@@ -73,26 +73,4 @@ class HomeController extends Controller
         $data['profile'] = $info;
         return view('profile',$data);
     }
-
-    public function editProfile(Request $request)
-    {
-        $user = Auth::user();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->address = $request->address;
-        $user->phone = $request->phone;
-        $user->save();
-        return redirect('profil');
-    }
-
-    public function changePassword(Request $request)
-    {
-        $user = Auth::user();
-        if(Hash::make($request->oldpass) != $user->password || $request->newpass != $request->newpassconfirm){
-            return redirect ('profil');
-        }
-        $user->password = Hash::make($request->newpass);
-        $user->save();
-        return redirect ('profil');
-    }
 }

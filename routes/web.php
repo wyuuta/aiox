@@ -31,13 +31,13 @@ Route::post("/instant/sell","TransactionController@instantSell");
 
 Route::get("/profil", 'HomeController@showProfile')->name('profil');
 
-Route::post("/profil/submit", 'HomeController@editProfile');
+Route::post("/profil/submit", 'UserController@editProfile');
 
-Route::post("/profil/changepass", 'HomeController@changePassword');
+Route::post("/profil/changepass", 'UserController@changePassword');
 
 Route::post("/profils", 'UserController@update_avatar');
 
-Route::post("/profil", 'UserController@profile');
+Route::post("/profil", 'UserController@showProfile');
 
 Route::get("/instant",'HomeController@showInstant')->name('instant');
 

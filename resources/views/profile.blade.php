@@ -14,12 +14,14 @@
 		<div class="sidenav">
 			<div class="profilepict">
 				<img src="/image/avatars/{{ $profile->avatar }}" style="width:150px; height:150px; margin-right:25px; border-radius:50%; " class="img-thumbnail">
-				<form enctype="multipart/form-data" action="/profils" method="POST">
-				<label style="color:white ">Update Profile Image</label>
-				<input type="file" name="avatar">
-				<input type="hidden" name="_token" value="{{ csrf_token() }}">
-				<input type="submit" class="pull-right btn-sm btn-primary">	
-				</form>	
+				
+					<form enctype="multipart/form-data" action="/profils" method="POST">
+<!-- 					<label style="color:white ">Update Profile Image</label>
+ -->					<input type="file" name="avatar">
+					<input type="hidden" name="_token" value="{{ csrf_token() }}">
+					<input type="submit" class="pull-right btn-sm btn-primary">	
+				</form>
+				
 			</div>
 			<hr/>
 			<ul class="nav flex-column">
@@ -50,6 +52,7 @@
 	<div class="col-md-10">
 	<div class="tab-content clearfix tab-content-dark" style="margin-top: 80px;">
 		<div class="tab-pane active" id="detilakun"	>
+			<div class="card-body">
 			<div class="row m15">
 				<div class="col-md-3">
 					Nama Lengkap
@@ -88,6 +91,7 @@
 				</div>
 				
 			</div>
+		</div>
 		</div>
 		<div class="tab-pane fade" id="editakun">
 			<div class="card-body">
